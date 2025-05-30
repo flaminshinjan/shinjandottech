@@ -7,7 +7,7 @@ export default function ContactPage() {
         <h1 className="text-4xl font-bold mb-8">Get in Touch</h1>
         
         <p className="text-xl text-gray-600 dark:text-gray-300 mb-12">
-          I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
+          I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
         </p>
 
         <div className="space-y-8">
@@ -49,7 +49,7 @@ export default function ContactPage() {
         </div>
 
         <div className="mt-16">
-          <h2 className="text-2xl font-bold mb-6">Let's Connect</h2>
+          <h2 className="text-2xl font-bold mb-6">Let&apos;s Connect</h2>
           <p className="text-gray-600 dark:text-gray-300">
             Feel free to reach out through any of the above channels. I typically respond within 24 hours.
             For professional connections, you can also find me on{' '}
