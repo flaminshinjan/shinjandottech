@@ -7,8 +7,12 @@ import { Footer } from "@/components/layout/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Oskar Kadera | Illustrator",
-  description: "Portfolio of Oskar Kadera, a world known British Visual Artist",
+  title: "shinjan.tech",
+  description: "Personal website and portfolio of Shinjan Patra",
+  icons: {
+    icon: '/shinjan.png',
+    apple: '/shinjan.png',
+  },
 };
 
 export default function RootLayout({
