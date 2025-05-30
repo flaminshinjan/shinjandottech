@@ -6,7 +6,7 @@ export default function AboutPage() {
         
         <div className="prose prose-lg max-w-none">
           <p className="text-xl text-gray-600 mb-8">
-            I'm a full-stack developer with a passion for creating elegant solutions to complex problems. 
+            I&apos;m a full-stack developer with a passion for creating elegant solutions to complex problems. 
             With expertise in modern web technologies, I focus on building scalable and user-friendly applications.
           </p>
 
