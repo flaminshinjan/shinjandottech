@@ -1,38 +1,8 @@
 'use client';
 
 import Link from "next/link";
-import { type SanityDocument } from "next-sanity";
-import { Calendar, ArrowLeft, Clock, Tag, Star, Code, Cpu, Database, Zap, GitBranch, Terminal, Layers } from "lucide-react";
-import imageUrlBuilder from "@sanity/image-url";
-import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import { Calendar, ArrowLeft, Clock, Star, Code, Cpu, Database, Zap, GitBranch, Terminal, Layers } from "lucide-react";
 
-import { client } from "@/sanity/client";
-
-const TECH_POSTS_QUERY = `*[
-  _type == "post"
-  && defined(slug.current)
-  && "tech" in categories[]->slug.current
-]|order(publishedAt desc)[0...12]{
-  _id, 
-  title, 
-  slug, 
-  publishedAt, 
-  excerpt,
-  coverImage,
-  author,
-  categories,
-  tags,
-  difficulty,
-  readingTime,
-  featured,
-  views
-}`;
-
-const { projectId, dataset } = client.config();
-const urlFor = (source: SanityImageSource) =>
-  projectId && dataset
-    ? imageUrlBuilder({ projectId, dataset }).image(source)
-    : null;
 
 // Mock data for demonstration - replace with actual Sanity data
 const mockTechPosts = [

@@ -156,7 +156,7 @@ export default function Home() {
                   <Users className="w-10 h-10 text-[#E85D4C]" />
                 </div>
                 <div className="text-[clamp(2rem,4vw,4rem)] font-black text-foreground mb-2 leading-none">25+</div>
-                <div className="text-muted-foreground text-sm font-medium uppercase tracking-wider">Happy Clients</div>
+                <div className="text-muted-foreground text-sm font-medium uppercase tracking-wider">Happy People</div>
               </div>
               <div className="text-center group hover:scale-110 transition-all duration-300">
                 <div className="w-20 h-20 bg-gradient-to-br from-[#F4C155]/20 to-[#E85D4C]/20 backdrop-blur-md border border-border/30 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:border-[#F4C155]/50 transition-all">

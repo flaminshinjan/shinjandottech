@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ExternalLink, Github, Calendar, ArrowLeft, Code, Globe, Database, Zap } from 'lucide-react';
+import { ExternalLink, Github,  ArrowLeft, Code, Globe, Database, Zap } from 'lucide-react';
 
 const webProjects = [
   {
@@ -155,7 +155,7 @@ export default function WebDevelopmentPage() {
       <section className="relative py-20">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2">
-            {webProjects.map((project, index) => (
+            {webProjects.map((project) => (
               <div 
                 key={project.id} 
                 className="group bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden hover:border-blue-500/30 transition-all duration-500 hover:scale-[1.02] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]"

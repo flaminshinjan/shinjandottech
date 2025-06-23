@@ -1,8 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
-import { ExternalLink, Github, Calendar, Users, Star, ArrowRight, Code, Smartphone, Palette, Zap, Award, TrendingUp } from 'lucide-react';
+import { ExternalLink, Github, Calendar, Users  , ArrowRight, Code, Smartphone, Palette, Award, TrendingUp } from 'lucide-react';
 
 const projects = [
   {
@@ -118,7 +117,7 @@ const categories = [
 
 const stats = [
   { label: 'Projects Completed', value: '25+', icon: Award },
-  { label: 'Happy Clients', value: '15+', icon: Users },
+  { label: 'Happy People', value: '15+', icon: Users },
   { label: 'Years Experience', value: '3+', icon: Calendar },
   { label: 'Success Rate', value: '100%', icon: TrendingUp }
 ];
@@ -333,7 +332,7 @@ export default function WorksPage() {
           </div>
 
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {allProjects.filter(p => !p.featured).map((project, index) => (
+            {allProjects.filter(p => !p.featured).map((project  ) => (
               <div 
                 key={project.id} 
                 className="group bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden hover:border-[#E85D4C]/30 transition-all duration-500 hover:scale-[1.02] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]"
