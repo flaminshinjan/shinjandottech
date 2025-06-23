@@ -20,7 +20,6 @@ export default function Home() {
         }}></div>
         
         {/* Geometric shapes */}
-        <div className="absolute top-32 left-1/4 w-24 h-24 border border-[#E85D4C]/20 rotate-45 animate-spin-slow"></div>
         <div className="absolute bottom-40 right-1/5 w-16 h-16 bg-[#F4C155]/10 rounded-full animate-pulse"></div>
       </div>
 
@@ -28,7 +27,6 @@ export default function Home() {
       <div className="bg-gradient-to-br from-[#E85D4C] via-[#E85D4C] to-[#F4C155] relative overflow-hidden">
         {/* Floating geometric shapes */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 right-1/3 w-24 h-24 border-2 border-white/10 rotate-45 animate-spin-slow"></div>
           <div className="absolute bottom-32 right-1/4 w-16 h-16 border-2 border-[#F4C155]/20 rotate-12 animate-bounce"></div>
           <div className="absolute top-1/2 left-10 w-32 h-32 bg-white/5 rounded-full blur-xl animate-pulse"></div>
         </div>

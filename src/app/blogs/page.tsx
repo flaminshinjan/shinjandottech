@@ -309,7 +309,7 @@ export default async function BlogsPage() {
                           </div>
                         </div>
                       </div>
-                    </Link>
+            </Link>
                   </article>
                 );
               })}
