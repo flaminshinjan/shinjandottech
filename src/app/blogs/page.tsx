@@ -302,7 +302,7 @@ export default async function BlogsPage() {
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-4">No Posts Yet</h3>
                 <p className="text-gray-400 leading-relaxed">
-                  I'm working on some amazing content. Check back soon for insights on technology, design, and innovation!
+                  I&apos;m working on some amazing content. Check back soon for insights on technology, design, and innovation!
                 </p>
               </div>
             </div>

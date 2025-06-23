@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Trophy, Code, Palette, Rocket, ArrowRight, Star, Users, Coffee, Zap, Github, Linkedin, Twitter, Award, Target, Lightbulb } from 'lucide-react';
+import { Code, Palette, Rocket, ArrowRight, Star, Users, Coffee, Zap, Github, Linkedin, Twitter, Award, Target, Lightbulb } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -250,7 +250,7 @@ export default function Home() {
               My Creative Process
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              From concept to completion, here's how I bring ideas to life
+              From concept to completion, here&apos;s how I bring ideas to life
             </p>
           </div>
 
@@ -316,7 +316,7 @@ export default function Home() {
             Ready to Start Something Amazing?
           </h2>
           <p className="text-black/80 text-lg mb-8 max-w-2xl mx-auto">
-            Let's collaborate and bring your ideas to life. I'm always excited to work on new projects and challenges.
+            Let&apos;s collaborate and bring your ideas to life. I&apos;m always excited to work on new projects and challenges.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

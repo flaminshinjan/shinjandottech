@@ -1,3 +1,4 @@
+import React from 'react';
 import { PortableText, type SanityDocument } from "next-sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
@@ -64,56 +65,56 @@ const categoryColors = {
 // Custom components for PortableText
 const components = {
   block: {
-    h1: ({children}: any) => (
+    h1: ({children}: {children?: React.ReactNode}) => (
       <h1 className="text-4xl font-bold text-white mb-6 mt-8">{children}</h1>
     ),
-    h2: ({children}: any) => (
+    h2: ({children}: {children?: React.ReactNode}) => (
       <h2 className="text-3xl font-bold text-white mb-4 mt-8">{children}</h2>
     ),
-    h3: ({children}: any) => (
+    h3: ({children}: {children?: React.ReactNode}) => (
       <h3 className="text-2xl font-semibold text-white mb-4 mt-6">{children}</h3>
     ),
-    h4: ({children}: any) => (
+    h4: ({children}: {children?: React.ReactNode}) => (
       <h4 className="text-xl font-semibold text-white mb-3 mt-4">{children}</h4>
     ),
-    normal: ({children}: any) => (
+    normal: ({children}: {children?: React.ReactNode}) => (
       <p className="text-gray-300 mb-4 leading-relaxed text-lg">{children}</p>
     ),
-    blockquote: ({children}: any) => (
+    blockquote: ({children}: {children?: React.ReactNode}) => (
       <blockquote className="border-l-4 border-[#F4C155] pl-6 my-6 italic text-gray-400">
         {children}
       </blockquote>
     ),
   },
   list: {
-    bullet: ({children}: any) => (
+    bullet: ({children}: {children?: React.ReactNode}) => (
       <ul className="list-disc list-inside space-y-2 mb-4 text-gray-300 ml-4">
         {children}
       </ul>
     ),
-    number: ({children}: any) => (
+    number: ({children}: {children?: React.ReactNode}) => (
       <ol className="list-decimal list-inside space-y-2 mb-4 text-gray-300 ml-4">
         {children}
       </ol>
     ),
   },
   listItem: {
-    bullet: ({children}: any) => <li className="mb-1">{children}</li>,
-    number: ({children}: any) => <li className="mb-1">{children}</li>,
+    bullet: ({children}: {children?: React.ReactNode}) => <li className="mb-1">{children}</li>,
+    number: ({children}: {children?: React.ReactNode}) => <li className="mb-1">{children}</li>,
   },
   marks: {
-    strong: ({children}: any) => (
+    strong: ({children}: {children?: React.ReactNode}) => (
       <strong className="font-semibold text-white">{children}</strong>
     ),
-    em: ({children}: any) => (
+    em: ({children}: {children?: React.ReactNode}) => (
       <em className="italic text-[#F4C155]">{children}</em>
     ),
-    code: ({children}: any) => (
+    code: ({children}: {children?: React.ReactNode}) => (
       <code className="bg-zinc-800 text-[#F4C155] px-2 py-1 rounded text-sm font-mono">
         {children}
       </code>
     ),
-    link: ({value, children}: any) => (
+    link: ({value, children}: {value?: {href?: string}, children?: React.ReactNode}) => (
       <a
         href={value?.href}
         target="_blank"
@@ -125,7 +126,7 @@ const components = {
     ),
   },
   types: {
-    image: ({value}: any) => {
+    image: ({value}: {value: {alt?: string, caption?: string} & SanityImageSource}) => {
       const imageUrl = urlFor(value)?.width(800).height(450).url();
       return imageUrl ? (
         <div className="my-8">
@@ -142,7 +143,7 @@ const components = {
         </div>
       ) : null;
     },
-    codeBlock: ({value}: any) => (
+    codeBlock: ({value}: {value: {filename?: string, code: string, language?: string}}) => (
       <div className="my-6">
         {value.filename && (
           <div className="bg-zinc-800 px-4 py-2 rounded-t-xl border-b border-zinc-700">
@@ -376,7 +377,7 @@ export default async function BlogPost({
                     </p>
                     <p>
                       The content will be rendered here using PortableText with custom styling 
-                      that matches your site's theme. You can now create posts in Sanity Studio 
+                      that matches your site&apos;s theme. You can now create posts in Sanity Studio 
                       with rich text, images, code blocks, and more.
                     </p>
                   </div>
@@ -409,7 +410,7 @@ export default async function BlogPost({
                 Related Articles
               </h2>
               <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {post.relatedPosts.slice(0, 3).map((relatedPost: any) => {
+                {post.relatedPosts.slice(0, 3).map((relatedPost: {_id: string, title: string, slug: {current: string}, excerpt?: string, coverImage?: SanityImageSource, publishedAt: string}) => {
                   const relatedImageUrl = relatedPost.coverImage
                     ? urlFor(relatedPost.coverImage)?.width(400).height(200).url()
                     : null;

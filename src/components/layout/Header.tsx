@@ -173,7 +173,7 @@ export function Header() {
                       <Mail className="w-4 h-4 text-rose-600 group-hover:scale-110 transition-transform" />
                       <div>
                         <h4 className="font-semibold text-gray-800 text-xs">Get In Touch</h4>
-                        <p className="text-[10px] text-gray-600">Let's collaborate</p>
+                        <p className="text-[10px] text-gray-600">Let&apos;s collaborate</p>
                       </div>
                     </Link>
                   </div>
