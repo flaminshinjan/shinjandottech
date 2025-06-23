@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Github, Linkedin, Twitter, ChevronDown, Code, Smartphone, Palette, Eye, User, Mail, Zap, FileText, Cpu, Brush, Menu, X } from 'lucide-react';
+import { Github, Linkedin, Twitter, ChevronDown, Code, Eye, User, Mail, Zap, FileText, Menu, X } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
 
@@ -12,10 +12,9 @@ const navItems = [
     label: 'WORKS',
     icon: Code,
     submenu: [
-      { href: '/works/web-development', label: 'Web Development', icon: Code, desc: 'React, Next.js, Node' },
-      { href: '/works/mobile-apps', label: 'Mobile Apps', icon: Smartphone, desc: 'iOS & Android' },
-      { href: '/works/ui-design', label: 'UI/UX Design', icon: Palette, desc: 'Figma, Adobe XD' },
-      { href: '/works', label: 'View All', icon: Eye, desc: 'Complete portfolio' }
+      { href: '/works', label: 'All Projects', icon: Eye, desc: 'Complete portfolio showcase' },
+      { href: '/works?category=professional', label: 'Professional Work', icon: Code, desc: 'Company projects & clients' },
+      { href: '/works?category=personal', label: 'Personal Projects', icon: Zap, desc: 'Side projects & experiments' }
     ]
   },
   { 
@@ -33,9 +32,7 @@ const navItems = [
     label: 'BLOGS',
     icon: FileText,
     submenu: [
-      { href: '/blogs', label: 'All Articles', icon: FileText, desc: 'Latest insights & tutorials' },
-      { href: '/blogs/tech', label: 'Tech Deep Dives', icon: Cpu, desc: 'Code & development' },
-      { href: '/blogs/design', label: 'Design Insights', icon: Brush, desc: 'UI/UX & creativity' }
+      { href: '/blogs', label: 'All Articles', icon: FileText, desc: 'Latest insights & tutorials' }
     ]
   }
 ];
@@ -133,7 +130,7 @@ export function Header() {
               {/* Social Links - Desktop */}
               <div className="hidden md:flex items-center gap-2">
                 <Link
-                  href="https://github.com/shinjan"
+                  href="https://github.com/flaminshinjan"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#E85D4C] hover:scale-110 transition-all duration-300"
@@ -142,7 +139,7 @@ export function Header() {
                   <Github className="w-4 h-4" />
                 </Link>
                 <Link
-                  href="https://linkedin.com/in/shinjan"
+                  href="https://www.linkedin.com/in/shinjanpatra/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#F4C155] hover:scale-110 transition-all duration-300"
@@ -151,11 +148,11 @@ export function Header() {
                   <Linkedin className="w-4 h-4" />
                 </Link>
                 <Link
-                  href="https://twitter.com/shinjan"
+                  href="https://x.com/flaminshinjanp"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#E85D4C] hover:scale-110 transition-all duration-300"
-                  aria-label="Twitter"
+                  aria-label="X (Twitter)"
                 >
                   <Twitter className="w-4 h-4" />
                 </Link>
@@ -248,7 +245,7 @@ export function Header() {
                 {/* Mobile Social Links */}
                 <div className="flex items-center gap-3 justify-center pt-4 border-t border-border/50">
                   <Link
-                    href="https://github.com/shinjan"
+                    href="https://github.com/flaminshinjan"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-10 h-10 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#E85D4C] transition-all"
@@ -256,7 +253,7 @@ export function Header() {
                     <Github className="w-4 h-4" />
                   </Link>
                   <Link
-                    href="https://linkedin.com/in/shinjan"
+                    href="https://www.linkedin.com/in/shinjanpatra/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-10 h-10 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#F4C155] transition-all"
@@ -264,7 +261,7 @@ export function Header() {
                     <Linkedin className="w-4 h-4" />
                   </Link>
                   <Link
-                    href="https://twitter.com/shinjan"
+                    href="https://x.com/flaminshinjanp"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-10 h-10 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#E85D4C] transition-all"

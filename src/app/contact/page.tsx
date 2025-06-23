@@ -43,21 +43,21 @@ const socialLinks = [
     icon: Github,
     name: "GitHub",
     username: "@shinjan",
-    href: "https://github.com/shinjan",
+    href: "https://github.com/flaminshinjan",
     color: "hover:text-gray-400"
   },
   {
     icon: Linkedin,
     name: "LinkedIn",
     username: "in/shinjan",
-    href: "https://linkedin.com/in/shinjan",
+    href: "https://www.linkedin.com/in/shinjanpatra/",
     color: "hover:text-blue-400"
   },
   {
     icon: Twitter,
     name: "Twitter",
     username: "@shinjan_dev",
-    href: "https://twitter.com/shinjan_dev",
+    href: "https://x.com/flaminshinjanp",
     color: "hover:text-sky-400"
   }
 ];
@@ -77,7 +77,7 @@ const responseStats = [
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden transition-colors duration-300">
+    <div className="bg-background relative overflow-hidden transition-colors duration-300">
       {/* Geometric Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Gradient Mesh Background */}

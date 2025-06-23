@@ -1,133 +1,298 @@
 'use client';
 
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ExternalLink, Github, Calendar, Users  , ArrowRight, Code, Smartphone, Palette, Award, TrendingUp } from 'lucide-react';
+import { ExternalLink, Github, Calendar, Users, Smartphone, Award, TrendingUp, Briefcase, Heart, Globe } from 'lucide-react';
 
-const projects = [
+interface Project {
+  id: number;
+  title: string;
+  category: string;
+  type: string;
+  description: string;
+  image: string;
+  technologies: string[];
+  features: string[];
+  liveUrl: string;
+  websiteUrl?: string;
+  githubUrl: string;
+  status: string;
+  year: string;
+  team: string;
+  duration: string;
+  featured: boolean;
+  company?: string;
+}
+
+const projects: Project[] = [
+  // Professional Projects
   {
     id: 1,
-    title: "EcoTrack - Sustainability Platform",
-    category: "web-development",
-    type: "Full-Stack Web Application",
-    description: "A comprehensive platform for tracking environmental impact and promoting sustainable practices with real-time analytics and community features.",
-    image: "/projects/ecotrack.jpg",
-    technologies: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "Tailwind CSS"],
-    features: ["Real-time Analytics", "Community Platform", "AI Insights", "Mobile Responsive"],
-    liveUrl: "https://ecotrack-demo.vercel.app",
-    githubUrl: "https://github.com/shinjan/ecotrack",
+    title: "Indus: Invest In India From NZ",
+    category: "professional",
+    type: "FinTech Mobile Application",
+    description: "Mobile investment platform enabling Kiwi residents to invest directly in Indian markets with seamless KYC, best-in-class FX rates, and access to 500+ Indian mutual funds.",
+    image: "/projects/indus.jpg",
+    technologies: ["Flutter", "Express.js", "Node.js", "JavaScript", "TypeScript", "Figma"],
+    features: ["Seamless KYC Process", "Direct Bank Transfers", "500+ Mutual Funds", "SEBI Approved"],
+    liveUrl: "https://play.google.com/store/apps/details?id=com.indus.investments",
+    websiteUrl: "https://indus.nz",
+    githubUrl: "",
     status: "Live",
-    year: "2024",
-    team: "Solo Project",
-    duration: "3 months",
-    featured: true
+    year: "2025",
+    team: "Founding Software Engineer",
+    duration: "6+ months",
+    featured: true,
+    company: "Indus Limited"
   },
   {
     id: 2,
-    title: "FinanceFlow Mobile App",
-    category: "mobile-apps",
-    type: "React Native Mobile App",
-    description: "Personal finance management app with AI-powered insights, expense tracking, and budget optimization features.",
-    image: "/projects/financeflow.jpg",
-    technologies: ["React Native", "Node.js", "MongoDB", "TensorFlow", "Expo"],
-    features: ["AI Insights", "Expense Tracking", "Budget Planning", "Real-time Sync"],
-    liveUrl: "https://apps.apple.com/app/financeflow",
-    githubUrl: "https://github.com/shinjan/financeflow",
+    title: "Quabble: Daily Mental Health",
+    category: "professional",
+    type: "Mental Health Mobile App",
+    description: "Comprehensive mental wellness app featuring mind workouts, personalized routines, mood tracking, and anonymous community support with a cute companion guide.",
+    image: "/projects/quabble.jpg",
+    technologies: ["Go", "Flutter", "PostgreSQL", "Cloud Applications", "Back-End Web Development"],
+    features: ["Mind Workouts", "Mood Tracking", "Anonymous Community", "Cute Companion Guide"],
+    liveUrl: "https://play.google.com/store/apps/details?id=com.museLIVE.quabbleapp",
+    websiteUrl: "https://muselive.com",
+    githubUrl: "",
     status: "Live",
-    year: "2024",
-    team: "Team of 3",
-    duration: "4 months",
-    featured: true
+    year: "2025",
+    team: "Backend Engineer",
+    duration: "2 months",
+    featured: true,
+    company: "museLIVE Inc."
   },
   {
     id: 3,
-    title: "CreativeStudio Design System",
-    category: "ui-design",
-    type: "Design System & UI Kit",
-    description: "Complete design system with 200+ components, comprehensive style guide, and developer handoff tools for creative agencies.",
-    image: "/projects/creativestudio.jpg",
-    technologies: ["Figma", "Design Tokens", "Storybook", "React", "Sass"],
-    features: ["200+ Components", "Design Tokens", "Dark/Light Mode", "Documentation"],
-    liveUrl: "https://creativestudio-ds.netlify.app",
-    githubUrl: "https://github.com/shinjan/creativestudio-ds",
+    title: "AI Shopping & Productivity Applications",
+    category: "professional",
+    type: "E-commerce AI Platform",
+    description: "Designed UI for AI based Shopping and Productivity Applications 30% faster, significantly improving UX and usability. Integrated CC Avenue Payment Gateway, increasing transaction success rates by 15%.",
+    image: "/projects/ionio.jpg",
+    technologies: ["SwiftUI", "Java", ".NET Framework", "Android Development", "Firebase", "Node.js", "iOS Development", "React Native", "Flutter"],
+    features: ["AI-Powered Shopping", "Payment Gateway Integration", "Cross-Platform Development", "State Management"],
+    liveUrl: "https://ionio.ai",
+    websiteUrl: "https://ionio.ai",
+    githubUrl: "",
     status: "Live",
-    year: "2023",
-    team: "Design Lead",
-    duration: "6 months",
-    featured: true
+    year: "2024",
+    team: "Software Development Engineer",
+    duration: "1 year 3 months",
+    featured: true,
+    company: "Ionio"
   },
   {
     id: 4,
-    title: "DevTools Extension",
-    category: "web-development",
-    type: "Browser Extension",
-    description: "Chrome extension for developers with code analysis, performance monitoring, and debugging tools.",
-    image: "/projects/devtools.jpg",
-    technologies: ["JavaScript", "Chrome APIs", "Webpack", "Chart.js"],
-    features: ["Code Analysis", "Performance Monitor", "Debug Tools", "Export Reports"],
-    liveUrl: "https://chrome.google.com/webstore/detail/devtools-plus",
-    githubUrl: "https://github.com/shinjan/devtools-extension",
+    title: "RetailGPT Mobile Apps",
+    category: "professional",
+    type: "Retail Mobile Applications",
+    description: "Developed App Clips in SwiftUI and Instant Apps in Kotlin for RetailGPT, improving user conversion rates by over 30%. Integrated REST APIs managing over 1,000 requests daily.",
+    image: "/projects/retailgpt.jpg",
+    technologies: ["SwiftUI", "Kotlin", "REST APIs", "OTPLess Authentication", "Mobile Application Design"],
+    features: ["App Clips & Instant Apps", "REST API Integration", "OTPLess Authentication", "User Conversion Optimization"],
+    liveUrl: "",
+    websiteUrl: "https://retailgpt.ai",
+    githubUrl: "",
+    status: "Live",
+    year: "2024",
+    team: "Software Development Engineer",
+    duration: "Part of Ionio role",
+    featured: false,
+    company: "Ionio"
+  },
+  {
+    id: 5,
+    title: "Finance Advisor Mobile App",
+    category: "professional",
+    type: "FinTech Mobile Application",
+    description: "Designed and developed a comprehensive finance advisor application focusing on user interface design and mobile application development during internship.",
+    image: "/projects/swiftmoney.jpg",
+    technologies: ["Flutter", "User Interface Design", "Mobile Application Development", "Design", "MongoDB"],
+    features: ["Financial Advice Algorithms", "User-Friendly Interface", "Cross-Platform Mobile App", "Database Integration"],
+    liveUrl: "",
+    websiteUrl: "https://swiftmoney.in",
+    githubUrl: "",
     status: "Live",
     year: "2023",
+    team: "SDE Intern",
+    duration: "5 months",
+    featured: false,
+    company: "Swift Money"
+  },
+  {
+    id: 6,
+    title: "iOS Application Testing Suite",
+    category: "professional",
+    type: "Mobile Testing Framework",
+    description: "Comprehensive testing of existing iOS applications utilizing unit testing concepts and XCTest Framework to ensure application reliability and performance.",
+    image: "/projects/techrange.jpg",
+    technologies: ["Swift", "XCTest Framework", "iOS Development", "Software Testing", "Test Automation", "Xcode", "AWS"],
+    features: ["Unit Testing Implementation", "XCTest Framework Usage", "Application Reliability Testing", "Performance Optimization"],
+    liveUrl: "",
+    websiteUrl: "https://techrange.org",
+    githubUrl: "",
+    status: "Completed",
+    year: "2023",
+    team: "iOS Development Intern",
+    duration: "3 months",
+    featured: false,
+    company: "TechRange"
+  },
+
+  // Personal Projects
+  {
+    id: 7,
+    title: "Personal Portfolio Website",
+    category: "personal",
+    type: "Full-Stack Web Application",
+    description: "Modern portfolio website built with Next.js featuring dynamic content management, blog system, and interactive UI components with glassmorphism design.",
+    image: "/projects/portfolio.jpg",
+    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Sanity CMS", "Vercel"],
+    features: ["Dynamic Content Management", "Blog System", "Glassmorphism Design", "Mobile Responsive", "Dark/Light Mode"],
+    liveUrl: "https://shinjan.tech",
+    githubUrl: "https://github.com/shinjan/portfolio",
+    status: "Live",
+    year: "2024",
+    team: "Solo Project",
+    duration: "Ongoing",
+    featured: true
+  },
+  {
+    id: 8,
+    title: "Task Management CLI Tool",
+    category: "personal",
+    type: "Command Line Interface",
+    description: "A powerful command-line task management tool built with Go, featuring project organization, time tracking, and productivity analytics.",
+    image: "/projects/cli-tool.jpg",
+    technologies: ["Go", "CLI", "SQLite", "Cobra", "Viper"],
+    features: ["Project Organization", "Time Tracking", "Productivity Analytics", "Cross-Platform", "Export to CSV"],
+    liveUrl: "",
+    githubUrl: "https://github.com/shinjan/task-cli",
+    status: "In Development",
+    year: "2024",
     team: "Solo Project",
     duration: "2 months",
     featured: false
   },
   {
-    id: 5,
-    title: "TaskFlow Mobile",
-    category: "mobile-apps",
-    type: "Flutter Mobile App",
-    description: "Team collaboration and project management app with real-time updates, file sharing, and progress tracking.",
-    image: "/projects/taskflow.jpg",
-    technologies: ["Flutter", "Firebase", "Dart", "Cloud Functions"],
-    features: ["Real-time Collaboration", "File Sharing", "Progress Tracking", "Offline Mode"],
-    liveUrl: "https://play.google.com/store/apps/details?id=com.taskflow",
-    githubUrl: "https://github.com/shinjan/taskflow-mobile",
+    id: 9,
+    title: "Expense Tracker PWA",
+    category: "personal",
+    type: "Progressive Web Application",
+    description: "A minimalist expense tracking Progressive Web App with offline capabilities, data visualization, and budget planning features.",
+    image: "/projects/expense-tracker.jpg",
+    technologies: ["React", "TypeScript", "PWA", "IndexedDB", "Chart.js", "Service Workers"],
+    features: ["Offline Functionality", "Data Visualization", "Budget Planning", "Category Management", "Export Reports"],
+    liveUrl: "https://expense-tracker-pwa.vercel.app",
+    githubUrl: "https://github.com/shinjan/expense-tracker-pwa",
     status: "Live",
     year: "2023",
-    team: "Team of 2",
-    duration: "5 months",
+    team: "Solo Project",
+    duration: "1 month",
     featured: false
   },
   {
-    id: 6,
-    title: "MedCare Dashboard",
-    category: "ui-design",
-    type: "Healthcare Dashboard Design",
-    description: "Comprehensive healthcare management dashboard for medical professionals with patient data visualization.",
-    image: "/projects/medcare.jpg",
-    technologies: ["Figma", "Adobe XD", "Principle", "Zeplin"],
-    features: ["Patient Management", "Data Visualization", "Responsive Design", "Accessibility"],
-    liveUrl: "https://medcare-dashboard.webflow.io",
-    githubUrl: "",
-    status: "Design Complete",
+    id: 10,
+    title: "Weather Forecast Widget",
+    category: "personal",
+    type: "Desktop Widget Application",
+    description: "A beautiful desktop weather widget built with Electron, featuring real-time weather data, forecasts, and customizable themes.",
+    image: "/projects/weather-widget.jpg",
+    technologies: ["Electron", "JavaScript", "CSS3", "Weather API", "Node.js"],
+    features: ["Real-Time Weather Data", "7-Day Forecast", "Customizable Themes", "System Tray Integration", "Auto Location"],
+    liveUrl: "",
+    githubUrl: "https://github.com/shinjan/weather-widget",
+    status: "Completed",
     year: "2023",
-    team: "UI/UX Designer",
-    duration: "3 months",
+    team: "Solo Project",
+    duration: "3 weeks",
+    featured: false
+  },
+  {
+    id: 11,
+    title: "Habit Tracker Mobile App",
+    category: "personal",
+    type: "Flutter Mobile Application",
+    description: "A clean and intuitive habit tracking mobile app with streak tracking, statistics, and motivational features to build better daily routines.",
+    image: "/projects/habit-tracker.jpg",
+    technologies: ["Flutter", "Dart", "SQLite", "Provider", "Local Notifications"],
+    features: ["Streak Tracking", "Statistics Dashboard", "Custom Habits", "Reminders", "Progress Visualization"],
+    liveUrl: "",
+    githubUrl: "https://github.com/shinjan/habit-tracker-flutter",
+    status: "In Development",
+    year: "2024",
+    team: "Solo Project",
+    duration: "1 month",
+    featured: false
+  },
+  {
+    id: 12,
+    title: "Code Snippet Manager",
+    category: "personal",
+    type: "Desktop Application",
+    description: "A developer-focused code snippet management tool with syntax highlighting, tagging system, and quick search functionality.",
+    image: "/projects/snippet-manager.jpg",
+    technologies: ["Tauri", "React", "TypeScript", "SQLite", "Monaco Editor"],
+    features: ["Syntax Highlighting", "Tagging System", "Quick Search", "Export/Import", "Multiple Languages"],
+    liveUrl: "",
+    githubUrl: "https://github.com/shinjan/snippet-manager",
+    status: "Completed",
+    year: "2023",
+    team: "Solo Project",
+    duration: "6 weeks",
     featured: false
   }
 ];
 
 const categories = [
-  { id: 'all', label: 'All Works', count: projects.length, icon: Award },
-  { id: 'web-development', label: 'Web Development', count: projects.filter(p => p.category === 'web-development').length, icon: Code },
-  { id: 'mobile-apps', label: 'Mobile Apps', count: projects.filter(p => p.category === 'mobile-apps').length, icon: Smartphone },
-  { id: 'ui-design', label: 'UI/UX Design', count: projects.filter(p => p.category === 'ui-design').length, icon: Palette }
+  { id: 'all', label: 'All Projects', count: projects.length, icon: Award },
+  { id: 'professional', label: 'Professional Work', count: projects.filter(p => p.category === 'professional').length, icon: Briefcase },
+  { id: 'personal', label: 'Personal Projects', count: projects.filter(p => p.category === 'personal').length, icon: Heart }
 ];
 
 const stats = [
-  { label: 'Projects Completed', value: '25+', icon: Award },
-  { label: 'Happy People', value: '15+', icon: Users },
+  { label: 'Total Projects', value: '12+', icon: Award },
+  { label: 'Companies Worked', value: '5+', icon: Briefcase },
   { label: 'Years Experience', value: '3+', icon: Calendar },
   { label: 'Success Rate', value: '100%', icon: TrendingUp }
 ];
 
-export default function WorksPage() {
+function WorksContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [activeCategory, setActiveCategory] = useState('all');
+  
+  // Set initial category from URL params
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    if (categoryParam && ['professional', 'personal'].includes(categoryParam)) {
+      setActiveCategory(categoryParam);
+    }
+  }, [searchParams]);
+
+  // Handle category change
+  const handleCategoryChange = (categoryId: string) => {
+    setActiveCategory(categoryId);
+    if (categoryId === 'all') {
+      router.push('/works');
+    } else {
+      router.push(`/works?category=${categoryId}`);
+    }
+  };
+  
   const featuredProjects = projects.filter(project => project.featured);
-  const allProjects = projects;
+  // const professionalProjects = projects.filter(project => project.category === 'professional');
+  // const personalProjects = projects.filter(project => project.category === 'personal');
+  
+  const filteredProjects = activeCategory === 'all' 
+    ? projects 
+    : projects.filter(project => project.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden transition-colors duration-300">
+    <div className="bg-background relative overflow-hidden transition-colors duration-300">
       {/* Geometric Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Gradient Mesh Background */}
@@ -169,7 +334,7 @@ export default function WorksPage() {
 
             {/* Description */}
             <p className="text-xl lg:text-2xl leading-relaxed text-muted-foreground max-w-4xl mx-auto font-light mb-12">
-              Showcasing innovative solutions, creative designs, and technical excellence across web development, mobile apps, and UI/UX design.
+              A comprehensive showcase of professional projects from leading tech companies and personal passion projects that demonstrate innovation and technical excellence.
             </p>
 
             {/* Stats Grid */}
@@ -193,15 +358,31 @@ export default function WorksPage() {
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="flex flex-wrap items-center justify-center gap-4">
             {categories.map((category) => (
-              <Link
+              <button
                 key={category.id}
-                href={category.id === 'all' ? '/works' : `/works/${category.id}`}
-                className="group flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-full hover:border-[#E85D4C]/50 hover:bg-[#E85D4C]/10 transition-all duration-300"
+                onClick={() => handleCategoryChange(category.id)}
+                className={`group flex items-center gap-3 px-6 py-3 backdrop-blur-md border rounded-full transition-all duration-300 cursor-pointer ${
+                  activeCategory === category.id
+                    ? 'bg-[#E85D4C]/20 border-[#E85D4C] text-[#E85D4C]'
+                    : 'bg-white/5 border-white/10 hover:border-[#E85D4C]/50 hover:bg-[#E85D4C]/10'
+                }`}
               >
-                <category.icon className="w-4 h-4 text-[#E85D4C] group-hover:scale-110 transition-transform" />
-                <span className="font-semibold text-foreground group-hover:text-[#E85D4C] transition-colors">{category.label}</span>
-                <span className="px-2 py-1 bg-[#F4C155]/20 text-[#F4C155] rounded-full text-xs font-bold">{category.count}</span>
-              </Link>
+                <category.icon className={`w-5 h-5 transition-colors ${
+                  activeCategory === category.id 
+                    ? 'text-[#E85D4C]' 
+                    : 'text-[#F4C155] group-hover:text-[#E85D4C]'
+                }`} />
+                <span className={`text-sm font-bold transition-colors ${
+                  activeCategory === category.id 
+                    ? 'text-[#E85D4C]' 
+                    : 'text-foreground group-hover:text-[#E85D4C]'
+                }`}>
+                  {category.label}
+                </span>
+                <span className="text-xs text-muted-foreground bg-white/10 px-2 py-1 rounded-full">
+                  {category.count}
+                </span>
+              </button>
             ))}
           </div>
         </div>
@@ -211,251 +392,490 @@ export default function WorksPage() {
       <section className="relative py-20">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center mb-16">
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="w-3 h-3 bg-[#E85D4C] rounded-full"></div>
-              <span className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">Featured</span>
-            </div>
             <h2 className="text-[clamp(2rem,6vw,8rem)] font-black leading-[0.8] tracking-tighter uppercase text-foreground mb-6">
-              SPOTLIGHT
+              FEATURED WORKS
             </h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Highlighting the most impactful projects from my professional and personal portfolio
+            </p>
           </div>
 
-          <div className="grid gap-12">
-            {featuredProjects.map((project, index) => (
-              <div 
+          <div className="grid gap-8 lg:grid-cols-2 xl:grid-cols-3 mb-20">
+            {featuredProjects.map((project) => (
+              <article 
                 key={project.id} 
-                className={`grid gap-8 items-center ${
-                  index % 2 === 0 ? 'lg:grid-cols-12' : 'lg:grid-cols-12'
-                }`}
+                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-300 group hover:scale-[1.02]"
               >
-                {/* Project Image */}
-                <div className={`${index % 2 === 0 ? 'lg:col-span-7' : 'lg:col-span-7 lg:order-2'} relative group`}>
-                  <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] group-hover:border-[#E85D4C]/30 transition-all duration-500">
-                    <div className="aspect-[16/10] bg-gradient-to-br from-[#E85D4C]/20 to-[#F4C155]/20 flex items-center justify-center">
+                <div className="aspect-[16/9] bg-gradient-to-br from-[#E85D4C]/20 to-[#F4C155]/20 flex items-center justify-center relative">
                       <div className="text-center">
-                        <div className="w-20 h-20 bg-gradient-to-br from-[#E85D4C] to-[#F4C155] rounded-2xl flex items-center justify-center mx-auto mb-4">
-                          <Code className="w-10 h-10 text-white" />
-                        </div>
-                        <div className="text-muted-foreground font-medium">Project Screenshot</div>
-                      </div>
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#E85D4C] to-[#F4C155] rounded-xl flex items-center justify-center mx-auto mb-3">
+                      {project.category === 'professional' ? (
+                        <Briefcase className="w-8 h-8 text-white" />
+                      ) : (
+                        <Heart className="w-8 h-8 text-white" />
+                      )}
                     </div>
-                  </div>
-                  {/* Floating elements */}
-                  <div className="absolute -top-4 -right-4 w-8 h-8 bg-[#F4C155] rounded-lg rotate-12 animate-float"></div>
-                  <div className="absolute -bottom-6 -left-6 w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full animate-pulse opacity-80"></div>
+                    <div className="text-muted-foreground text-sm font-medium capitalize">{project.category} Project</div>
                 </div>
 
-                {/* Project Details */}
-                <div className={`${index % 2 === 0 ? 'lg:col-span-5' : 'lg:col-span-5 lg:order-1'} space-y-6`}>
-                  <div className="flex items-center gap-3">
-                    <span className="px-4 py-2 bg-[#E85D4C]/10 text-[#E85D4C] rounded-full text-sm font-bold uppercase tracking-wide">
-                      {project.type}
-                    </span>
-                    <span className="px-3 py-1 bg-green-500/10 text-green-500 rounded-full text-xs font-bold uppercase">
+                  {/* Status Badge */}
+                  <div className="absolute top-4 left-4">
+                    <span className={`px-3 py-1 backdrop-blur-sm text-white rounded-full text-xs font-bold uppercase ${
+                      project.status === 'Live' ? 'bg-green-500/80' :
+                      project.status === 'In Development' ? 'bg-blue-500/80' : 'bg-gray-500/80'
+                    }`}>
                       {project.status}
                     </span>
                   </div>
 
-                  <h3 className="text-[clamp(1.5rem,4vw,3rem)] font-black leading-[0.9] tracking-tight text-foreground">
-                    {project.title}
-                  </h3>
+                  {/* Category Badge */}
+                  <div className="absolute top-4 right-4">
+                    <span className={`px-3 py-1 backdrop-blur-sm text-white rounded-full text-xs font-bold ${
+                      project.category === 'professional' ? 'bg-purple-500/80' : 'bg-pink-500/80'
+                    }`}>
+                      {project.category === 'professional' ? 'WORK' : 'PERSONAL'}
+                    </span>
+                  </div>
+                </div>
 
-                  <p className="text-muted-foreground leading-relaxed text-lg">
+                <div className="p-8">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <Calendar className="w-3 h-3" />
+                      <span>{project.year}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <Users className="w-3 h-3" />
+                      <span>{project.team}</span>
+                    </div>
+                  </div>
+
+                  <h2 className="text-xl lg:text-2xl font-bold text-foreground mb-4 group-hover:text-[#E85D4C] transition-colors leading-tight">
+                    {project.title}
+                  </h2>
+
+                  {project.company && (
+                    <div className="text-sm text-[#F4C155] font-semibold mb-3">
+                      @ {project.company}
+                    </div>
+                  )}
+
+                  <p className="text-muted-foreground mb-6 leading-relaxed text-sm">
                     {project.description}
                   </p>
 
                   {/* Technologies */}
-                  <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((tech) => (
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.technologies.slice(0, 4).map((tech, index) => (
                       <span 
-                        key={tech}
-                        className="px-3 py-1 bg-white/5 border border-white/10 text-muted-foreground rounded-full text-sm font-medium hover:border-[#F4C155] transition-colors"
+                        key={index}
+                        className="px-2 py-1 bg-[#E85D4C]/10 text-[#E85D4C] rounded-md text-xs font-medium"
                       >
                         {tech}
                       </span>
                     ))}
+                    {project.technologies.length > 4 && (
+                      <span className="px-2 py-1 bg-white/5 text-muted-foreground rounded-md text-xs">
+                        +{project.technologies.length - 4} more
+                      </span>
+                    )}
                   </div>
 
-                  {/* Meta Info */}
-                  <div className="grid grid-cols-3 gap-4 py-4 border-t border-white/10">
-                    <div>
-                      <div className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-1">Year</div>
-                      <div className="font-semibold text-foreground">{project.year}</div>
-                    </div>
-                    <div>
-                      <div className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-1">Team</div>
-                      <div className="font-semibold text-foreground">{project.team}</div>
-                    </div>
-                    <div>
-                      <div className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-1">Duration</div>
-                      <div className="font-semibold text-foreground">{project.duration}</div>
-                    </div>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex gap-2">
+                      {project.category === 'professional' ? (
+                        <>
+                          {project.websiteUrl && (
+                            <Link
+                              href={project.websiteUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-2 text-[#F4C155] font-semibold text-sm hover:text-[#E85D4C] transition-colors"
+                            >
+                              <Globe className="w-4 h-4" />
+                              <span>Website</span>
+                            </Link>
+                          )}
+                          {project.liveUrl && (
+                            <Link
+                              href={project.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-2 text-blue-400 font-semibold text-sm hover:text-blue-300 transition-colors"
+                            >
+                              <Smartphone className="w-4 h-4" />
+                              <span>App</span>
+                            </Link>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          {project.liveUrl && (
                     <Link
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#E85D4C] to-[#F4C155] text-white font-bold rounded-full hover:scale-105 transition-transform duration-300 shadow-lg"
+                              className="inline-flex items-center gap-2 text-[#F4C155] font-semibold text-sm hover:text-[#E85D4C] transition-colors"
                     >
                       <ExternalLink className="w-4 h-4" />
-                      <span>View Live</span>
+                              <span>Live</span>
                     </Link>
+                          )}
                     {project.githubUrl && (
                       <Link
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 text-foreground font-bold rounded-full hover:border-[#E85D4C] hover:scale-105 transition-all duration-300"
+                              className="inline-flex items-center gap-2 text-muted-foreground font-semibold text-sm hover:text-foreground transition-colors"
                       >
                         <Github className="w-4 h-4" />
                         <span>Code</span>
                       </Link>
                     )}
+                        </>
+                      )}
+                    </div>
+                    <span className="text-xs text-muted-foreground">
+                      {project.duration}
+                    </span>
                   </div>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* All Projects Grid */}
-      <section className="relative py-20">
+      {/* Filtered Projects Section */}
+      {activeCategory !== 'all' && (
+        <section className="relative py-20 border-t border-white/10">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center mb-16">
-            <h2 className="text-[clamp(2rem,5vw,6rem)] font-black leading-[0.8] tracking-tighter uppercase text-foreground mb-6">
-              ALL PROJECTS
-            </h2>
+              <div className="flex items-center justify-center gap-4 mb-6">
+                {activeCategory === 'professional' ? (
+                  <Briefcase className="w-8 h-8 text-[#E85D4C]" />
+                ) : (
+                  <Heart className="w-8 h-8 text-[#E85D4C]" />
+                )}
+                <h3 className="text-3xl lg:text-5xl font-black text-foreground uppercase tracking-tight">
+                  {activeCategory === 'professional' ? 'PROFESSIONAL WORK' : 'PERSONAL PROJECTS'}
+                </h3>
+              </div>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                {activeCategory === 'professional' 
+                  ? 'Projects delivered for leading companies in FinTech, Mental Health Tech, E-commerce, and Mobile Development'
+                  : 'Passion projects and experimental work showcasing creativity, learning, and personal interests'
+                }
+              </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {allProjects.filter(p => !p.featured).map((project  ) => (
-              <div 
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {filteredProjects.filter(p => !p.featured).map((project) => (
+                <article 
                 key={project.id} 
-                className="group bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden hover:border-[#E85D4C]/30 transition-all duration-500 hover:scale-[1.02] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]"
-              >
-                {/* Project Image */}
-                <div className="aspect-[16/10] bg-gradient-to-br from-[#E85D4C]/20 to-[#F4C155]/20 flex items-center justify-center relative">
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-gradient-to-br from-[#E85D4C] to-[#F4C155] rounded-xl flex items-center justify-center mx-auto mb-3">
-                      {project.category === 'web-development' && <Code className="w-8 h-8 text-white" />}
-                      {project.category === 'mobile-apps' && <Smartphone className="w-8 h-8 text-white" />}
-                      {project.category === 'ui-design' && <Palette className="w-8 h-8 text-white" />}
+                  className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300 group hover:scale-[1.02]"
+                >
+                  <div className={`aspect-[16/9] flex items-center justify-center relative ${
+                    project.category === 'professional' 
+                      ? 'bg-gradient-to-br from-purple-600/20 to-blue-500/20' 
+                      : 'bg-gradient-to-br from-pink-600/20 to-rose-500/20'
+                  }`}>
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                      project.category === 'professional'
+                        ? 'bg-gradient-to-br from-purple-600 to-blue-500'
+                        : 'bg-gradient-to-br from-pink-600 to-rose-500'
+                    }`}>
+                      {project.category === 'professional' ? (
+                        <Briefcase className="w-6 h-6 text-white" />
+                      ) : (
+                        <Heart className="w-6 h-6 text-white" />
+                      )}
                     </div>
-                    <div className="text-muted-foreground text-sm font-medium">Project Visual</div>
+                    
+                    <div className="absolute top-3 left-3">
+                      <span className={`px-2 py-1 backdrop-blur-sm text-white rounded-lg text-xs font-bold ${
+                        project.status === 'Live' ? 'bg-green-500/80' :
+                        project.status === 'In Development' ? 'bg-blue-500/80' : 'bg-gray-500/80'
+                      }`}>
+                        {project.status}
+                      </span>
+                    </div>
                   </div>
                   
-                  {/* Category Badge */}
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-black/50 backdrop-blur-sm text-white rounded-full text-xs font-bold uppercase">
-                      {project.category.replace('-', ' ')}
-                    </span>
+                  <div className="p-6">
+                    <div className="flex items-center gap-3 mb-3 text-xs text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="w-3 h-3" />
+                        <span>{project.year}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Users className="w-3 h-3" />
+                        <span>{project.team}</span>
                   </div>
                 </div>
 
-                {/* Project Details */}
-                <div className="p-6 space-y-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-[#E85D4C] transition-colors">
+                    <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-[#E85D4C] transition-colors leading-tight">
                       {project.title}
                     </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
+
+                    {project.company && (
+                      <div className="text-sm text-[#F4C155] font-semibold mb-3">
+                        @ {project.company}
+                      </div>
+                    )}
+
+                    <p className="text-muted-foreground text-sm mb-4 leading-relaxed line-clamp-3">
                       {project.description}
                     </p>
-                  </div>
 
-                  {/* Technologies */}
-                  <div className="flex flex-wrap gap-1">
-                    {project.technologies.slice(0, 3).map((tech) => (
+                    <div className="flex flex-wrap gap-1 mb-4">
+                      {project.technologies.slice(0, 3).map((tech, index) => (
                       <span 
-                        key={tech}
-                        className="px-2 py-1 bg-white/5 text-muted-foreground rounded text-xs font-medium"
+                          key={index}
+                          className={`px-2 py-1 rounded-md text-xs ${
+                            project.category === 'professional'
+                              ? 'bg-purple-500/10 text-purple-400'
+                              : 'bg-pink-500/10 text-pink-400'
+                          }`}
                       >
                         {tech}
                       </span>
                     ))}
-                    {project.technologies.length > 3 && (
-                      <span className="px-2 py-1 bg-[#F4C155]/10 text-[#F4C155] rounded text-xs font-bold">
-                        +{project.technologies.length - 3}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                    <div className="flex items-center gap-2 text-muted-foreground text-xs">
-                      <Calendar className="w-3 h-3" />
-                      <span>{project.year}</span>
                     </div>
                     
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-2">
+                        {project.category === 'professional' ? (
+                          <>
+                            {project.websiteUrl && (
+                              <Link
+                                href={project.websiteUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#F4C155] font-semibold text-sm hover:text-[#E85D4C] transition-colors"
+                              >
+                                Website
+                              </Link>
+                            )}
+                            {project.liveUrl && (
+                              <Link
+                                href={project.liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-400 font-semibold text-sm hover:text-blue-300 transition-colors"
+                              >
+                                App
+                              </Link>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            {project.liveUrl && (
                       <Link
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-8 h-8 bg-[#E85D4C]/10 hover:bg-[#E85D4C]/20 rounded-lg flex items-center justify-center text-[#E85D4C] hover:scale-110 transition-all"
+                                className="text-[#F4C155] font-semibold text-sm hover:text-[#E85D4C] transition-colors"
                       >
-                        <ExternalLink className="w-4 h-4" />
+                                Live
                       </Link>
+                            )}
                       {project.githubUrl && (
                         <Link
                           href={project.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-8 h-8 bg-white/5 hover:bg-white/10 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:scale-110 transition-all"
+                                className="text-muted-foreground font-semibold text-sm hover:text-foreground transition-colors"
                         >
-                          <Github className="w-4 h-4" />
+                                Code
                         </Link>
                       )}
+                          </>
+                        )}
+                      </div>
+                      <span className="text-xs text-muted-foreground">
+                        {project.duration}
+                      </span>
                     </div>
                   </div>
-                </div>
-              </div>
+                </article>
             ))}
           </div>
         </div>
       </section>
+      )}
 
-      {/* CTA Section */}
-      <section className="relative py-20">
-        <div className="container mx-auto px-4 max-w-4xl text-center">
-          <div className="bg-gradient-to-br from-[#E85D4C] to-[#F4C155] rounded-3xl p-12 lg:p-16 relative overflow-hidden">
-            {/* Background Elements */}
-            <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute top-4 right-4 w-16 h-16 border-2 border-white/20 rotate-45 animate-spin-slow"></div>
-              <div className="absolute bottom-6 left-6 w-8 h-8 bg-white/20 rounded-full animate-pulse"></div>
-            </div>
-            
-            <div className="relative z-10 space-y-6">
-              <h3 className="text-[clamp(1.5rem,4vw,3rem)] font-black leading-[0.8] tracking-tight text-white uppercase">
-                Ready to Work Together?
+            {/* All Projects Section - Shows when "All Projects" is selected */}
+      {activeCategory === 'all' && (
+        <section className="relative py-20 border-t border-white/10">
+          <div className="container mx-auto px-4 max-w-7xl">
+            <div className="text-center mb-16">
+              <h3 className="text-3xl lg:text-5xl font-black text-foreground uppercase tracking-tight mb-6">
+                ALL PROJECTS
               </h3>
-              <p className="text-white/90 text-lg font-light max-w-2xl mx-auto leading-relaxed">
-                Let&apos;s create something amazing together. I&apos;m always excited to take on new challenges and bring innovative ideas to life.
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Complete showcase of professional work and personal projects
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-3 bg-white text-[#E85D4C] px-8 py-4 rounded-2xl font-bold uppercase tracking-wide hover:scale-105 transition-all shadow-xl"
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {projects.filter(p => !p.featured).map((project) => (
+                <article 
+                  key={project.id} 
+                  className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300 group hover:scale-[1.02]"
                 >
-                  <span>Start a Project</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <div className={`aspect-[16/9] flex items-center justify-center relative ${
+                    project.category === 'professional' 
+                      ? 'bg-gradient-to-br from-purple-600/20 to-blue-500/20' 
+                      : 'bg-gradient-to-br from-pink-600/20 to-rose-500/20'
+                  }`}>
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                      project.category === 'professional'
+                        ? 'bg-gradient-to-br from-purple-600 to-blue-500'
+                        : 'bg-gradient-to-br from-pink-600 to-rose-500'
+                    }`}>
+                      {project.category === 'professional' ? (
+                        <Briefcase className="w-6 h-6 text-white" />
+                      ) : (
+                        <Heart className="w-6 h-6 text-white" />
+                      )}
+                    </div>
+                    
+                    <div className="absolute top-3 left-3">
+                      <span className={`px-2 py-1 backdrop-blur-sm text-white rounded-lg text-xs font-bold ${
+                        project.status === 'Live' ? 'bg-green-500/80' :
+                        project.status === 'In Development' ? 'bg-blue-500/80' : 'bg-gray-500/80'
+                      }`}>
+                        {project.status}
+                      </span>
+                    </div>
+
+                    <div className="absolute top-3 right-3">
+                      <span className={`px-2 py-1 backdrop-blur-sm text-white rounded-lg text-xs font-bold ${
+                        project.category === 'professional' ? 'bg-purple-500/80' : 'bg-pink-500/80'
+                      }`}>
+                        {project.category === 'professional' ? 'WORK' : 'PERSONAL'}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-6">
+                    <div className="flex items-center gap-3 mb-3 text-xs text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="w-3 h-3" />
+                        <span>{project.year}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Users className="w-3 h-3" />
+                        <span>{project.team}</span>
+                      </div>
+                    </div>
+
+                    <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-[#E85D4C] transition-colors leading-tight">
+                      {project.title}
+                    </h3>
+
+                    {project.company && (
+                      <div className="text-sm text-[#F4C155] font-semibold mb-3">
+                        @ {project.company}
+                      </div>
+                    )}
+
+                    <p className="text-muted-foreground text-sm mb-4 leading-relaxed line-clamp-3">
+                      {project.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-1 mb-4">
+                      {project.technologies.slice(0, 3).map((tech, index) => (
+                        <span 
+                          key={index}
+                          className={`px-2 py-1 rounded-md text-xs ${
+                            project.category === 'professional'
+                              ? 'bg-purple-500/10 text-purple-400'
+                              : 'bg-pink-500/10 text-pink-400'
+                          }`}
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-2">
+                        {project.category === 'professional' ? (
+                          <>
+                            {project.websiteUrl && (
+                              <Link
+                                href={project.websiteUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#F4C155] font-semibold text-sm hover:text-[#E85D4C] transition-colors"
+                              >
+                                Website
+                              </Link>
+                            )}
+                            {project.liveUrl && (
+                              <Link
+                                href={project.liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-400 font-semibold text-sm hover:text-blue-300 transition-colors"
+                              >
+                                App
+                              </Link>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            {project.liveUrl && (
+                              <Link
+                                href={project.liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#F4C155] font-semibold text-sm hover:text-[#E85D4C] transition-colors"
+                              >
+                                Live
                 </Link>
+                            )}
+                            {project.githubUrl && (
                 <Link
-                  href="/about"
-                  className="inline-flex items-center gap-3 bg-black/20 border-2 border-white/30 text-white px-8 py-4 rounded-2xl font-bold uppercase tracking-wide hover:bg-white/10 transition-all"
-                >
-                  <span>Learn More</span>
+                                href={project.githubUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-muted-foreground font-semibold text-sm hover:text-foreground transition-colors"
+                              >
+                                Code
                 </Link>
-              </div>
+                            )}
+                          </>
+                        )}
+                      </div>
+                      <span className="text-xs text-muted-foreground">
+                        {project.duration}
+                      </span>
+                    </div>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
-
+        </section>
+      )}
     </div>
+  );
+}
+
+export default function WorksPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-gradient-to-br from-[#E85D4C] to-[#F4C155] rounded-2xl mx-auto mb-4 animate-pulse"></div>
+          <p className="text-muted-foreground">Loading works...</p>
+        </div>
+      </div>
+    }>
+      <WorksContent />
+    </Suspense>
   );
 } 

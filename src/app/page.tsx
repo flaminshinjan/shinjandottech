@@ -3,10 +3,30 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Code, Palette, Rocket, ArrowRight, Star, Users, Coffee, Zap, Github, Linkedin, Twitter, Award, Target, Lightbulb } from 'lucide-react';
+import { 
+  SiReact, 
+  SiNextdotjs, 
+  SiTypescript, 
+  SiPython, 
+  SiNodedotjs, 
+  SiPostgresql, 
+  SiMongodb, 
+  SiAmazon, 
+  SiDocker, 
+  SiFigma, 
+  SiTailwindcss,
+  SiFlutter,
+  SiGo,
+  SiJavascript,
+  SiSwift,
+  SiKotlin,
+  SiFirebase,
+  SiGit
+} from 'react-icons/si';
 
 export default function Home() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-background text-foreground transition-colors duration-300">
+    <div className="overflow-x-hidden bg-background text-foreground transition-colors duration-300">
       {/* Decorative Background Elements */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-[#E85D4C]/10 to-[#F4C155]/10 rounded-full blur-3xl animate-pulse"></div>
@@ -97,13 +117,13 @@ export default function Home() {
                 <div className="flex items-center gap-4 mt-8">
                   <span className="text-white/70 text-sm">Follow me:</span>
                   <div className="flex gap-3">
-                    <Link href="https://github.com" className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors group">
+                    <Link href="https://github.com/flaminshinjan" target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors group">
                       <Github className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
                     </Link>
-                    <Link href="https://linkedin.com" className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors group">
+                    <Link href="https://www.linkedin.com/in/shinjanpatra/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors group">
                       <Linkedin className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
                     </Link>
-                    <Link href="https://twitter.com" className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors group">
+                    <Link href="https://x.com/flaminshinjanp" target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors group">
                       <Twitter className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
                     </Link>
                   </div>
@@ -533,32 +553,59 @@ export default function Home() {
             <h2 className="text-[clamp(3rem,6vw,8rem)] font-black leading-[0.85] tracking-tighter uppercase text-foreground mb-6">
               TECH STACK
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Leveraging the latest technologies to build future-ready solutions
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-8">
+              Leveraging cutting-edge technologies to build scalable, performant, and future-ready solutions
             </p>
+            
+            {/* Tech Categories Labels */}
+            <div className="flex items-center justify-center gap-6 flex-wrap">
+              <div className="bg-background/20 backdrop-blur-md border border-border/30 rounded-full px-4 py-2 flex items-center gap-2">
+                <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Frontend</span>
+              </div>
+              <div className="bg-background/20 backdrop-blur-md border border-border/30 rounded-full px-4 py-2 flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Backend & Mobile</span>
+              </div>
+              <div className="bg-background/20 backdrop-blur-md border border-border/30 rounded-full px-4 py-2 flex items-center gap-2">
+                <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Database & Cloud</span>
+              </div>
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            {/* Tech items */}
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {/* Frontend Technologies */}
             {[
-              { name: 'React', color: 'from-blue-400 to-blue-600' },
-              { name: 'Next.js', color: 'from-gray-700 to-black' },
-              { name: 'TypeScript', color: 'from-blue-500 to-blue-700' },
-              { name: 'Python', color: 'from-yellow-400 to-blue-500' },
-              { name: 'Node.js', color: 'from-green-500 to-green-700' },
-              { name: 'PostgreSQL', color: 'from-blue-600 to-blue-800' },
-              { name: 'MongoDB', color: 'from-green-400 to-green-600' },
-              { name: 'AWS', color: 'from-orange-400 to-orange-600' },
-              { name: 'Docker', color: 'from-blue-500 to-blue-700' },
-              { name: 'TensorFlow', color: 'from-orange-500 to-orange-700' },
-              { name: 'Figma', color: 'from-purple-500 to-pink-500' },
-              { name: 'Tailwind', color: 'from-teal-400 to-teal-600' }
+              /* Frontend Technologies */
+              { name: 'React', icon: SiReact, color: 'text-blue-500' },
+              { name: 'Next.js', icon: SiNextdotjs, color: 'text-foreground' },
+              { name: 'TypeScript', icon: SiTypescript, color: 'text-blue-600' },
+              { name: 'JavaScript', icon: SiJavascript, color: 'text-yellow-500' },
+              { name: 'Tailwind CSS', icon: SiTailwindcss, color: 'text-teal-500' },
+              { name: 'Figma', icon: SiFigma, color: 'text-purple-500' },
+              
+              /* Backend & Mobile */
+              { name: 'Node.js', icon: SiNodedotjs, color: 'text-green-600' },
+              { name: 'Python', icon: SiPython, color: 'text-blue-500' },
+              { name: 'Go', icon: SiGo, color: 'text-blue-400' },
+              { name: 'Flutter', icon: SiFlutter, color: 'text-blue-500' },
+              { name: 'Swift', icon: SiSwift, color: 'text-orange-500' },
+              { name: 'Kotlin', icon: SiKotlin, color: 'text-purple-600' },
+              
+              /* Databases & Cloud */
+              { name: 'PostgreSQL', icon: SiPostgresql, color: 'text-blue-700' },
+              { name: 'MongoDB', icon: SiMongodb, color: 'text-green-500' },
+              { name: 'Firebase', icon: SiFirebase, color: 'text-orange-500' },
+              { name: 'AWS', icon: SiAmazon, color: 'text-orange-600' },
+              { name: 'Docker', icon: SiDocker, color: 'text-blue-500' },
+              { name: 'Git', icon: SiGit, color: 'text-orange-600' }
             ].map((tech, index) => (
-              <div key={index} className="bg-background/30 backdrop-blur-xl border border-border/30 rounded-2xl p-6 text-center group hover:scale-105 transition-all duration-300 hover:border-[#E85D4C]/30">
-                <div className={`w-12 h-12 bg-gradient-to-br ${tech.color} rounded-xl mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                  <div className="w-6 h-6 bg-white/20 rounded-md"></div>
+              <div key={index} className="bg-background/30 backdrop-blur-xl border border-border/30 rounded-2xl p-6 text-center group hover:scale-105 transition-all duration-300 hover:border-[#E85D4C]/30 cursor-pointer">
+                <div className="w-12 h-12 mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <tech.icon className={`w-8 h-8 ${tech.color} group-hover:scale-110 transition-transform`} />
                 </div>
-                <h4 className="font-semibold text-foreground text-sm">{tech.name}</h4>
+                <h4 className="font-semibold text-foreground text-sm group-hover:text-[#E85D4C] transition-colors">{tech.name}</h4>
               </div>
             ))}
           </div>
