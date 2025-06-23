@@ -20,7 +20,6 @@ export default function Home() {
         }}></div>
         
         {/* Geometric shapes */}
-        <div className="absolute top-32 left-1/4 w-24 h-24 border border-[#E85D4C]/20 rotate-45 animate-spin-slow"></div>
         <div className="absolute bottom-40 right-1/5 w-16 h-16 bg-[#F4C155]/10 rounded-full animate-pulse"></div>
       </div>
 
@@ -28,7 +27,6 @@ export default function Home() {
       <div className="bg-gradient-to-br from-[#E85D4C] via-[#E85D4C] to-[#F4C155] relative overflow-hidden">
         {/* Floating geometric shapes */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 right-1/3 w-24 h-24 border-2 border-white/10 rotate-45 animate-spin-slow"></div>
           <div className="absolute bottom-32 right-1/4 w-16 h-16 border-2 border-[#F4C155]/20 rotate-12 animate-bounce"></div>
           <div className="absolute top-1/2 left-10 w-32 h-32 bg-white/5 rounded-full blur-xl animate-pulse"></div>
         </div>
@@ -158,7 +156,7 @@ export default function Home() {
                   <Users className="w-10 h-10 text-[#E85D4C]" />
                 </div>
                 <div className="text-[clamp(2rem,4vw,4rem)] font-black text-foreground mb-2 leading-none">25+</div>
-                <div className="text-muted-foreground text-sm font-medium uppercase tracking-wider">Happy Clients</div>
+                <div className="text-muted-foreground text-sm font-medium uppercase tracking-wider">Happy People</div>
               </div>
               <div className="text-center group hover:scale-110 transition-all duration-300">
                 <div className="w-20 h-20 bg-gradient-to-br from-[#F4C155]/20 to-[#E85D4C]/20 backdrop-blur-md border border-border/30 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:border-[#F4C155]/50 transition-all">
