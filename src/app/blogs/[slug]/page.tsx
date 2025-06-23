@@ -3,9 +3,11 @@ import { PortableText, type SanityDocument } from "next-sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { client } from "@/sanity/client";
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import { ArrowLeft, Calendar, User, Clock, Tag, Star, Github, Twitter, Linkedin, Mail } from "lucide-react";
+import { notFound } from 'next/navigation';
+import Image from 'next/image';
+import { Calendar, Clock, Share2, Bookmark, ArrowLeft, Twitter, Linkedin, Github, Mail, ArrowRight, Star, User } from 'lucide-react';
+import Link from 'next/link';
+import { CodeBlock } from '@/components/CodeBlock';
 
 const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]{
   _id,
@@ -62,55 +64,63 @@ const categoryColors = {
   opinion: 'bg-violet-500',
 };
 
-// Custom components for PortableText
+// Custom components for PortableText with modern design
 const components = {
   block: {
     h1: ({children}: {children?: React.ReactNode}) => (
-      <h1 className="text-4xl font-bold text-white mb-6 mt-8">{children}</h1>
+      <h1 className="text-[clamp(2rem,6vw,5rem)] font-black leading-[0.9] tracking-tight text-foreground mb-8 mt-12">{children}</h1>
     ),
     h2: ({children}: {children?: React.ReactNode}) => (
-      <h2 className="text-3xl font-bold text-white mb-4 mt-8">{children}</h2>
+      <h2 className="text-[clamp(1.5rem,4vw,3rem)] font-black leading-[0.9] tracking-tight text-foreground mb-6 mt-10">{children}</h2>
     ),
     h3: ({children}: {children?: React.ReactNode}) => (
-      <h3 className="text-2xl font-semibold text-white mb-4 mt-6">{children}</h3>
+      <h3 className="text-[clamp(1.25rem,3vw,2rem)] font-bold text-foreground mb-4 mt-8">{children}</h3>
     ),
     h4: ({children}: {children?: React.ReactNode}) => (
-      <h4 className="text-xl font-semibold text-white mb-3 mt-4">{children}</h4>
+      <h4 className="text-xl font-bold text-foreground mb-3 mt-6">{children}</h4>
     ),
     normal: ({children}: {children?: React.ReactNode}) => (
-      <p className="text-gray-300 mb-4 leading-relaxed text-lg">{children}</p>
+      <p className="text-muted-foreground mb-6 leading-relaxed text-lg font-light">{children}</p>
     ),
     blockquote: ({children}: {children?: React.ReactNode}) => (
-      <blockquote className="border-l-4 border-[#F4C155] pl-6 my-6 italic text-gray-400">
-        {children}
+      <blockquote className="relative bg-white/5 backdrop-blur-md border-l-4 border-[#F4C155] rounded-r-2xl p-8 my-8 italic">
+        <div className="absolute top-4 left-4 w-2 h-2 bg-[#E85D4C] rounded-full"></div>
+        <div className="text-muted-foreground text-lg font-light">{children}</div>
       </blockquote>
     ),
   },
   list: {
     bullet: ({children}: {children?: React.ReactNode}) => (
-      <ul className="list-disc list-inside space-y-2 mb-4 text-gray-300 ml-4">
+      <ul className="space-y-3 mb-6 ml-8">
         {children}
       </ul>
     ),
     number: ({children}: {children?: React.ReactNode}) => (
-      <ol className="list-decimal list-inside space-y-2 mb-4 text-gray-300 ml-4">
+      <ol className="space-y-3 mb-6 ml-8">
         {children}
       </ol>
     ),
   },
   listItem: {
-    bullet: ({children}: {children?: React.ReactNode}) => <li className="mb-1">{children}</li>,
-    number: ({children}: {children?: React.ReactNode}) => <li className="mb-1">{children}</li>,
+    bullet: ({children}: {children?: React.ReactNode}) => (
+      <li className="flex items-start gap-3">
+        <div className="w-2 h-2 bg-[#F4C155] rounded-full mt-3 flex-shrink-0"></div>
+        <span className="text-muted-foreground text-lg font-light">{children}</span>
+      </li>
+    ),
+    number: ({children}: {children?: React.ReactNode}) => (
+      <li className="text-muted-foreground text-lg font-light">{children}</li>
+    ),
   },
   marks: {
     strong: ({children}: {children?: React.ReactNode}) => (
-      <strong className="font-semibold text-white">{children}</strong>
+      <strong className="font-bold text-foreground">{children}</strong>
     ),
     em: ({children}: {children?: React.ReactNode}) => (
-      <em className="italic text-[#F4C155]">{children}</em>
+      <em className="italic text-[#F4C155] font-medium">{children}</em>
     ),
     code: ({children}: {children?: React.ReactNode}) => (
-      <code className="bg-zinc-800 text-[#F4C155] px-2 py-1 rounded text-sm font-mono">
+      <code className="bg-white/10 border border-white/20 text-[#F4C155] px-3 py-1 rounded-lg text-sm font-mono font-semibold">
         {children}
       </code>
     ),
@@ -119,7 +129,7 @@ const components = {
         href={value?.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-[#F4C155] hover:text-white underline transition-colors"
+        className="text-[#F4C155] hover:text-[#E85D4C] underline underline-offset-4 transition-colors font-medium"
       >
         {children}
       </a>
@@ -127,40 +137,31 @@ const components = {
   },
   types: {
     image: ({value}: {value: {alt?: string, caption?: string} & SanityImageSource}) => {
-      const imageUrl = urlFor(value)?.width(800).height(450).url();
+      const imageUrl = urlFor(value)?.quality(90).url();
       return imageUrl ? (
-        <div className="my-8">
-          <img
-            src={imageUrl}
-            alt={value.alt || "Blog image"}
-            className="w-full rounded-2xl shadow-lg"
-          />
-          {value.caption && (
-            <p className="text-center text-gray-500 text-sm mt-2 italic">
-              {value.caption}
-            </p>
-          )}
+        <div className="my-12 group">
+          <div className="bg-background/30 backdrop-blur-md border border-border/30 rounded-3xl p-6 hover:border-[#E85D4C]/30 transition-all duration-500">
+            <div className="relative overflow-hidden rounded-2xl">
+              <Image
+                src={imageUrl}
+                alt={value.alt || "Blog image"}
+                width={800}
+                height={600}
+                className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-700"
+                quality={90}
+              />
+            </div>
+            {value.caption && (
+              <p className="text-center text-sm text-muted-foreground mt-4 italic">
+                {value.caption}
+              </p>
+            )}
+          </div>
         </div>
       ) : null;
     },
     codeBlock: ({value}: {value: {filename?: string, code: string, language?: string}}) => (
-      <div className="my-6">
-        {value.filename && (
-          <div className="bg-zinc-800 px-4 py-2 rounded-t-xl border-b border-zinc-700">
-            <p className="text-gray-400 text-sm font-mono">{value.filename}</p>
-          </div>
-        )}
-        <pre className={`bg-zinc-800 p-6 overflow-x-auto ${value.filename ? 'rounded-b-xl' : 'rounded-xl'}`}>
-          <code className="text-[#F4C155] text-sm font-mono">
-            {value.code}
-          </code>
-        </pre>
-        {value.language && (
-          <p className="text-gray-500 text-xs mt-2 text-right">
-            Language: {value.language}
-          </p>
-        )}
-      </div>
+      <CodeBlock value={value} />
     ),
   },
 };
@@ -182,48 +183,84 @@ export default async function BlogPost({
   }
 
   const coverImageUrl = post.coverImage
-    ? urlFor(post.coverImage)?.width(1200).height(600).url()
+    ? urlFor(post.coverImage)?.width(1400).quality(95).url()
     : null;
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-background relative overflow-hidden transition-colors duration-300">
+      {/* Geometric Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Gradient Mesh Background */}
+        <div className="absolute top-0 left-0 w-full h-full opacity-10">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-[#E85D4C] to-[#F4C155] rounded-full blur-3xl opacity-30"></div>
+          <div className="absolute bottom-32 left-16 w-80 h-80 bg-gradient-to-tr from-purple-600 to-blue-500 rounded-full blur-3xl opacity-20"></div>
+        </div>
+        
+        {/* Geometric Shapes */}
+        <div className="absolute top-32 left-1/4 w-24 h-24 border border-[#E85D4C]/20 rotate-45 animate-spin-slow"></div>
+        <div className="absolute bottom-40 right-1/5 w-16 h-16 bg-[#F4C155]/10 rounded-full animate-pulse"></div>
+        
+        {/* Dot Pattern */}
+        <div className="absolute inset-0 opacity-[0.01]" style={{
+          backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
+          backgroundSize: '32px 32px'
+        }}></div>
+      </div>
+
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-b from-[#E85D4C] to-black">
-        <div className="container mx-auto px-4">
-          {/* Back Button */}
-          <Link 
-            href="/blogs" 
-            className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors mb-8 group"
-          >
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            <span>Back to Blog</span>
-          </Link>
-
-          <div className="max-w-4xl mx-auto">
-            {/* Featured Image */}
-            {coverImageUrl && (
-              <div className="mb-8">
-                <img
-                  src={coverImageUrl}
-                  alt={post.coverImage?.alt || post.title}
-                  className="w-full aspect-video rounded-3xl object-cover shadow-2xl"
-                />
+      <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-24">
+        <div className="container mx-auto px-4 max-w-6xl">
+          {/* Back Navigation */}
+          <div className="mb-12">
+            <Link 
+              href="/blogs" 
+              className="inline-flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group"
+            >
+              <div className="w-10 h-10 bg-white/5 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center group-hover:border-[#F4C155] transition-colors">
+                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               </div>
-            )}
+              <span className="font-medium">Back to Articles</span>
+            </Link>
+          </div>
 
-            <div className="text-center">
-              {/* Categories and Featured Badge */}
-              <div className="flex items-center justify-center gap-2 mb-6 flex-wrap">
+          {/* Side by Side Layout */}
+          <div className="grid lg:grid-cols-2 gap-12 items-start mb-16">
+            {/* Left Column - Image */}
+            <div className="relative group">
+              {coverImageUrl && (
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] hover:border-[#E85D4C]/30 transition-all duration-500">
+                  <div className="relative overflow-hidden rounded-2xl aspect-[4/3]">
+                    <Image
+                      src={coverImageUrl}
+                      alt={post.coverImage?.alt || post.title}
+                      width={1400}
+                      height={1050}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  </div>
+                </div>
+              )}
+              
+              {/* Floating Elements */}
+              <div className="absolute -top-4 -right-4 w-8 h-8 bg-[#E85D4C] rounded-xl rotate-12 animate-float"></div>
+              <div className="absolute -bottom-6 -left-6 w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full animate-pulse opacity-60"></div>
+            </div>
+
+            {/* Right Column - Title and Meta */}
+            <div className="space-y-6">
+              {/* Categories and Meta */}
+              <div className="flex items-center gap-3 flex-wrap">
                 {post.featured && (
-                  <div className="flex items-center gap-1 bg-[#F4C155] text-black px-3 py-1 rounded-full text-sm font-medium">
+                  <div className="flex items-center gap-2 bg-gradient-to-r from-[#E85D4C] to-[#F4C155] text-white px-4 py-2 rounded-full shadow-lg">
                     <Star className="w-4 h-4" />
-                    <span>Featured</span>
+                    <span className="text-sm font-bold uppercase tracking-wide">Featured</span>
                   </div>
                 )}
                 {post.categories?.map((category: string) => (
                   <span
                     key={category}
-                    className={`px-3 py-1 rounded-full text-sm font-medium text-white ${
+                    className={`px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide text-white ${
                       categoryColors[category as keyof typeof categoryColors] || 'bg-gray-500'
                     }`}
                   >
@@ -232,7 +269,7 @@ export default async function BlogPost({
                 ))}
                 {post.difficulty && (
                   <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium text-white ${
+                    className={`px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wide text-white ${
                       difficultyColors[post.difficulty as keyof typeof difficultyColors]
                     }`}
                   >
@@ -241,21 +278,23 @@ export default async function BlogPost({
                 )}
               </div>
 
-              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+              {/* Title */}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-[0.9] tracking-tight">
                 {post.title}
               </h1>
               
+              {/* Excerpt */}
               {post.excerpt && (
-                <p className="text-xl text-white/80 mb-8 leading-relaxed max-w-2xl mx-auto">
+                <p className="text-xl text-muted-foreground leading-relaxed">
                   {post.excerpt}
                 </p>
               )}
 
-              {/* Meta Info */}
-              <div className="flex items-center justify-center gap-6 text-white/70 mb-6 flex-wrap">
+              {/* Meta Information */}
+              <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4" />
-                  <time dateTime={post.publishedAt}>
+                  <Calendar className="w-4 h-4 text-[#E85D4C]" />
+                  <time dateTime={post.publishedAt} className="font-medium">
                     {new Date(post.publishedAt).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
@@ -266,25 +305,39 @@ export default async function BlogPost({
                 
                 {post.readingTime && (
                   <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4" />
-                    <span>{post.readingTime} min read</span>
+                    <Clock className="w-4 h-4 text-[#F4C155]" />
+                    <span className="font-medium">{post.readingTime} min read</span>
                   </div>
                 )}
 
                 {post.author?.name && (
                   <div className="flex items-center gap-2">
-                    <User className="w-4 h-4" />
-                    <span>by {post.author.name}</span>
+                    <User className="w-4 h-4 text-blue-500" />
+                    <span className="font-medium">by {post.author.name}</span>
                   </div>
                 )}
               </div>
 
+              {/* Action Buttons */}
+              <div className="flex items-center gap-3">
+                <button className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#E85D4C] to-[#F4C155] text-white font-bold rounded-full hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl">
+                  <Bookmark className="w-4 h-4" />
+                  <span>Save Article</span>
+                </button>
+                <button className="flex items-center gap-2 px-6 py-3 bg-white/5 backdrop-blur-md border border-white/10 text-foreground font-bold rounded-full hover:border-[#E85D4C] hover:scale-105 transition-all duration-300">
+                  <Share2 className="w-4 h-4" />
+                  <span>Share</span>
+                </button>
+              </div>
+
               {/* Tags */}
               {post.tags && post.tags.length > 0 && (
-                <div className="flex items-center justify-center gap-2 flex-wrap">
-                  <Tag className="w-4 h-4 text-white/70" />
+                <div className="flex flex-wrap gap-2">
                   {post.tags.map((tag: string) => (
-                    <span key={tag} className="text-white/70 text-sm">
+                    <span 
+                      key={tag} 
+                      className="px-3 py-1 text-xs font-medium bg-white/5 backdrop-blur-md border border-white/10 text-muted-foreground rounded-full hover:border-[#F4C155] transition-colors cursor-pointer"
+                    >
                       #{tag}
                     </span>
                   ))}
@@ -297,23 +350,25 @@ export default async function BlogPost({
 
       {/* Author Section */}
       {post.author && (
-        <section className="py-8 bg-zinc-900">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <div className="flex items-center gap-6 bg-black rounded-3xl p-6">
+        <section className="relative py-12">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]">
+              <div className="flex items-start gap-6">
                 {post.author.avatar && (
-                  <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
-                    <img
-                      src={urlFor(post.author.avatar)?.width(64).height(64).url() || ''}
+                  <div className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 border-2 border-[#F4C155]">
+                    <Image
+                      src={urlFor(post.author.avatar)?.width(80).height(80).url() || ''}
                       alt={post.author.name}
+                      width={80}
+                      height={80}
                       className="w-full h-full object-cover"
                     />
                   </div>
                 )}
                 <div className="flex-1">
-                  <h3 className="text-white font-semibold text-lg mb-1">{post.author.name}</h3>
+                  <h3 className="text-xl font-black text-foreground mb-2">{post.author.name}</h3>
                   {post.author.bio && (
-                    <p className="text-gray-400 text-sm mb-3">{post.author.bio}</p>
+                    <p className="text-muted-foreground mb-4 font-light leading-relaxed">{post.author.bio}</p>
                   )}
                   <div className="flex items-center gap-4">
                     {post.author.github && (
@@ -321,7 +376,7 @@ export default async function BlogPost({
                         href={post.author.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-white transition-colors"
+                        className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-[#F4C155]/20 transition-all"
                       >
                         <Github className="w-4 h-4" />
                       </a>
@@ -331,7 +386,7 @@ export default async function BlogPost({
                         href={post.author.twitter}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-white transition-colors"
+                        className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-[#F4C155]/20 transition-all"
                       >
                         <Twitter className="w-4 h-4" />
                       </a>
@@ -341,7 +396,7 @@ export default async function BlogPost({
                         href={post.author.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-white transition-colors"
+                        className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-[#F4C155]/20 transition-all"
                       >
                         <Linkedin className="w-4 h-4" />
                       </a>
@@ -349,7 +404,7 @@ export default async function BlogPost({
                     {post.author.email && (
                       <a
                         href={`mailto:${post.author.email}`}
-                        className="text-gray-400 hover:text-white transition-colors"
+                        className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-[#F4C155]/20 transition-all"
                       >
                         <Mail className="w-4 h-4" />
                       </a>
@@ -362,119 +417,131 @@ export default async function BlogPost({
         </section>
       )}
 
-      {/* Content Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <article className="max-w-4xl mx-auto">
-            <div className="bg-zinc-900 rounded-3xl p-8 md:p-12">
-              <div className="prose prose-lg prose-invert max-w-none">
-                {Array.isArray(post.body) && post.body.length > 0 ? (
-                  <PortableText value={post.body} components={components} />
-                ) : (
-                  <div className="text-gray-300 leading-relaxed space-y-6">
-                    <p className="text-xl text-[#F4C155] font-medium">
-                      This post is ready to display rich content from Sanity Studio.
-                    </p>
-                    <p>
-                      The content will be rendered here using PortableText with custom styling 
-                      that matches your site&apos;s theme. You can now create posts in Sanity Studio 
-                      with rich text, images, code blocks, and more.
-                    </p>
-                  </div>
-                )}
-              </div>
+      {/* Content Section - Full Width */}
+      <section className="relative py-16">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <article>
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 lg:p-16 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]">
+              <PortableText value={post.body} components={components} />
             </div>
-
-            {/* Last Updated */}
-            {post.updatedAt && post.updatedAt !== post.publishedAt && (
-              <div className="mt-8 text-center">
-                <p className="text-gray-500 text-sm">
-                  Last updated: {new Date(post.updatedAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </p>
-              </div>
-            )}
           </article>
         </div>
       </section>
 
       {/* Related Posts */}
       {post.relatedPosts && post.relatedPosts.length > 0 && (
-        <section className="py-20 bg-zinc-900">
-          <div className="container mx-auto px-4">
-            <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold text-white mb-12 text-center">
-                Related Articles
+        <section className="relative py-20">
+          <div className="container mx-auto px-4 max-w-7xl">
+            {/* Section Header */}
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-full mb-8">
+                <ArrowRight className="w-4 h-4 text-[#F4C155]" />
+                <span className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">Related</span>
+              </div>
+              
+              <h2 className="text-[clamp(2rem,5vw,6rem)] font-black leading-[0.8] tracking-tighter uppercase text-foreground mb-6">
+                MORE ARTICLES
               </h2>
-              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {post.relatedPosts.slice(0, 3).map((relatedPost: {_id: string, title: string, slug: {current: string}, excerpt?: string, coverImage?: SanityImageSource, publishedAt: string}) => {
-                  const relatedImageUrl = relatedPost.coverImage
-                    ? urlFor(relatedPost.coverImage)?.width(400).height(200).url()
-                    : null;
+            </div>
 
-                  return (
-                    <article key={relatedPost._id} className="group">
-                      <Link href={`/blogs/${relatedPost.slug.current}`} className="block">
-                        <div className="bg-black rounded-3xl overflow-hidden hover:bg-zinc-800 transition-all duration-300 hover:scale-[1.02]">
-                          {relatedImageUrl && (
-                            <div className="aspect-video overflow-hidden">
-                              <img
-                                src={relatedImageUrl}
-                                alt={relatedPost.title}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                              />
-                            </div>
+            {/* Related Posts Grid */}
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {post.relatedPosts.slice(0, 3).map((relatedPost: SanityDocument, index: number) => {
+                const relatedCoverImageUrl = relatedPost.coverImage
+                  ? urlFor(relatedPost.coverImage)?.width(600).quality(90).url()
+                  : null;
+
+                return (
+                  <article 
+                    key={relatedPost._id} 
+                    className="group relative"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <Link href={`/blogs/${relatedPost.slug.current}`} className="block">
+                      <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden hover:border-[#E85D4C]/50 transition-all duration-500 group-hover:transform group-hover:scale-[1.05] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]">
+                        {/* Cover Image */}
+                        {relatedCoverImageUrl && (
+                          <div className="relative overflow-hidden">
+                            <Image
+                              src={relatedCoverImageUrl}
+                              alt={relatedPost.coverImage?.alt || relatedPost.title}
+                              width={600}
+                              height={400}
+                              className="w-full h-auto object-contain group-hover:scale-110 transition-transform duration-700"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                          </div>
+                        )}
+                        
+                        <div className="p-6">
+                          <h3 className="text-lg font-black leading-tight text-foreground mb-3 group-hover:text-[#F4C155] transition-colors line-clamp-2">
+                            {relatedPost.title}
+                          </h3>
+                          
+                          {relatedPost.excerpt && (
+                            <p className="text-muted-foreground mb-4 leading-relaxed text-sm font-light line-clamp-3">
+                              {relatedPost.excerpt}
+                            </p>
                           )}
-                          <div className="p-6">
-                            <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-[#F4C155] transition-colors">
-                              {relatedPost.title}
-                            </h3>
-                            {relatedPost.excerpt && (
-                              <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                                {relatedPost.excerpt}
-                              </p>
-                            )}
-                            <div className="flex items-center gap-2 text-gray-500 text-xs">
+                          
+                          <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                            <div className="flex items-center gap-2 text-muted-foreground text-xs">
                               <Calendar className="w-3 h-3" />
-                              <time dateTime={relatedPost.publishedAt}>
+                              <time dateTime={relatedPost.publishedAt} className="font-medium">
                                 {new Date(relatedPost.publishedAt).toLocaleDateString('en-US', {
                                   month: 'short',
-                                  day: 'numeric',
-                                  year: 'numeric'
+                                  day: 'numeric'
                                 })}
                               </time>
                             </div>
+                            
+                            <div className="flex items-center gap-2 text-[#F4C155] group-hover:gap-3 transition-all">
+                              <span className="text-xs font-bold uppercase tracking-wide">Read</span>
+                              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </div>
                           </div>
                         </div>
-                      </Link>
-                    </article>
-                  );
-                })}
-              </div>
+                      </div>
+                    </Link>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>
       )}
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-[#E85D4C] to-[#F4C155]">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold text-black mb-4">
-            Want to Read More?
-          </h2>
-          <p className="text-black/80 mb-8 max-w-md mx-auto">
-            Check out more articles and insights on my blog
-          </p>
-          <Link 
-            href="/blogs"
-            className="inline-flex items-center gap-2 bg-black text-white px-8 py-4 rounded-full font-medium hover:bg-zinc-800 transition-colors"
-          >
-            <span>View All Posts</span>
-            <ArrowLeft className="w-4 h-4 rotate-180" />
-          </Link>
+      {/* Call to Action */}
+      <section className="relative py-20">
+        <div className="container mx-auto px-4 max-w-4xl text-center">
+          <div className="bg-gradient-to-br from-[#E85D4C] to-[#F4C155] rounded-3xl p-12 lg:p-16 relative overflow-hidden">
+            {/* Background Elements */}
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute top-4 right-4 w-16 h-16 border-2 border-white/20 rotate-45 animate-spin-slow"></div>
+              <div className="absolute bottom-6 left-6 w-8 h-8 bg-white/20 rounded-full animate-pulse"></div>
+            </div>
+            
+            <div className="relative z-10 space-y-6">
+              <h3 className="text-[clamp(1.5rem,4vw,3rem)] font-black leading-[0.8] tracking-tight text-white uppercase">
+                Enjoyed This Article?
+              </h3>
+              <p className="text-white/90 text-lg font-light max-w-2xl mx-auto leading-relaxed">
+                Join the community and get notified when new content drops. No spam, just pure value.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link
+                  href="/blogs"
+                  className="inline-flex items-center gap-3 bg-white text-[#E85D4C] px-8 py-4 rounded-2xl font-bold uppercase tracking-wide hover:scale-105 transition-all shadow-xl"
+                >
+                  <span>More Articles</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <button className="inline-flex items-center gap-3 bg-black/20 border-2 border-white/30 text-white px-8 py-4 rounded-2xl font-bold uppercase tracking-wide hover:bg-white/10 transition-all">
+                  <span>Subscribe</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
