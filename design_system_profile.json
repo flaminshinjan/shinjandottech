@@ -1,0 +1,203 @@
+{
+  "designSystem": {
+    "name": "Modern Bold Digital Portfolio",
+    "version": "1.0",
+    "description": "A contemporary design system featuring bold typography, vibrant gradients, and geometric layouts with dark themes and neon accents"
+  },
+  "colorPalette": {
+    "primary": {
+      "background": "#1a1a1a",
+      "surface": "#2a2a2a",
+      "cardBackground": "#333333"
+    },
+    "accent": {
+      "purple": "#7c3aed",
+      "blue": "#3b82f6",
+      "green": "#10b981",
+      "mint": "#22d3ee",
+      "lime": "#84cc16"
+    },
+    "text": {
+      "primary": "#ffffff",
+      "secondary": "#a1a1aa",
+      "muted": "#71717a"
+    },
+    "gradients": {
+      "purpleBlue": "linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%)",
+      "greenMint": "linear-gradient(135deg, #10b981 0%, #22d3ee 100%)",
+      "multiColor": "linear-gradient(90deg, #7c3aed 0%, #3b82f6 33%, #10b981 66%, #22d3ee 100%)"
+    }
+  },
+  "typography": {
+    "hierarchy": {
+      "hero": {
+        "fontSize": "clamp(3rem, 8vw, 12rem)",
+        "fontWeight": "900",
+        "lineHeight": "0.85",
+        "letterSpacing": "-0.02em",
+        "textTransform": "uppercase"
+      },
+      "heading1": {
+        "fontSize": "clamp(2rem, 5vw, 6rem)",
+        "fontWeight": "800",
+        "lineHeight": "0.9",
+        "letterSpacing": "-0.01em"
+      },
+      "heading2": {
+        "fontSize": "clamp(1.5rem, 3vw, 3rem)",
+        "fontWeight": "700",
+        "lineHeight": "1.1"
+      },
+      "body": {
+        "fontSize": "1rem",
+        "fontWeight": "400",
+        "lineHeight": "1.6"
+      },
+      "caption": {
+        "fontSize": "0.875rem",
+        "fontWeight": "500",
+        "letterSpacing": "0.05em"
+      }
+    },
+    "fontFamily": {
+      "primary": "Inter, system-ui, sans-serif",
+      "display": "Inter, system-ui, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    },
+    "treatments": {
+      "gradientText": true,
+      "strokeText": true,
+      "condensedSpacing": true,
+      "allCaps": true
+    }
+  },
+  "layout": {
+    "grid": {
+      "maxWidth": "1400px",
+      "columns": 12,
+      "gap": "2rem",
+      "breakpoints": {
+        "mobile": "320px",
+        "tablet": "768px",
+        "desktop": "1024px",
+        "wide": "1400px"
+      }
+    },
+    "spacing": {
+      "xs": "0.5rem",
+      "sm": "1rem",
+      "md": "2rem",
+      "lg": "4rem",
+      "xl": "6rem",
+      "xxl": "8rem"
+    },
+    "composition": {
+      "asymmetricGrid": true,
+      "overlappingElements": true,
+      "diagonalLayouts": true,
+      "floatingCards": true
+    }
+  },
+  "components": {
+    "navigation": {
+      "style": "horizontal",
+      "position": "top",
+      "background": "transparent",
+      "typography": "uppercase",
+      "spacing": "wide",
+      "alignment": "right"
+    },
+    "cards": {
+      "borderRadius": "1rem",
+      "background": "rgba(255, 255, 255, 0.05)",
+      "backdrop": "blur(10px)",
+      "border": "1px solid rgba(255, 255, 255, 0.1)",
+      "padding": "2rem",
+      "shadow": "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+    },
+    "buttons": {
+      "borderRadius": "9999px",
+      "padding": "0.75rem 2rem",
+      "fontWeight": "600",
+      "textTransform": "uppercase",
+      "letterSpacing": "0.05em"
+    },
+    "testimonials": {
+      "layout": "card",
+      "starRating": true,
+      "quotationMarks": false,
+      "authorPlacement": "bottom"
+    }
+  },
+  "visualElements": {
+    "shapes": {
+      "geometric": true,
+      "organic": false,
+      "abstract": true
+    },
+    "patterns": {
+      "dots": true,
+      "lines": true,
+      "gradientMesh": true,
+      "noise": true
+    },
+    "icons": {
+      "style": "outline",
+      "strokeWidth": "2px",
+      "size": "24px",
+      "treatment": "minimal"
+    },
+    "illustrations": {
+      "style": "geometric",
+      "colorTreatment": "gradient",
+      "complexity": "simple"
+    }
+  },
+  "animations": {
+    "transitions": {
+      "duration": "300ms",
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "effects": {
+      "hover": "scale, glow, color-shift",
+      "entrance": "fade-up, stagger",
+      "scroll": "parallax, reveal"
+    }
+  },
+  "branding": {
+    "personality": ["bold", "modern", "premium", "creative", "confident"],
+    "tone": "professional yet approachable",
+    "visualStyle": "high-contrast, gradient-heavy, geometric"
+  },
+  "layoutPatterns": {
+    "hero": {
+      "structure": "large typography + supporting text + call-to-action",
+      "alignment": "left-aligned with right visual elements",
+      "hierarchy": "extreme size contrast"
+    },
+    "content": {
+      "structure": "asymmetric grid with mixed content blocks",
+      "cardLayout": "floating cards with glassmorphism",
+      "textFlow": "short paragraphs with generous whitespace"
+    },
+    "footer": {
+      "structure": "repeating text banner",
+      "style": "continuous scroll effect",
+      "content": "brand messaging with icons"
+    }
+  },
+  "designPrinciples": {
+    "contrast": "High contrast between text and background",
+    "hierarchy": "Extreme size differences for clear information hierarchy",
+    "whitespace": "Generous spacing for breathing room",
+    "consistency": "Consistent use of gradients and geometric shapes",
+    "accessibility": "Sufficient color contrast for readability",
+    "responsiveness": "Scalable typography and flexible layouts"
+  },
+  "technicalSpecs": {
+    "cssFramework": "Tailwind CSS or custom CSS",
+    "animations": "Framer Motion or CSS animations",
+    "fonts": "Web fonts with fallbacks",
+    "optimization": "Responsive images and performant gradients"
+  }
+}

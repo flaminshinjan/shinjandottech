@@ -2,17 +2,47 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Github, Linkedin, Twitter, ChevronDown, Code, Smartphone, Palette, Eye, User, Mail, Zap, FileText, Cpu, Brush } from 'lucide-react';
+import { Github, Linkedin, Twitter, ChevronDown, Code, Smartphone, Palette, Eye, User, Mail, Zap, FileText, Cpu, Brush, Menu, X } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
+import { ThemeToggle } from '@/components/common/ThemeToggle';
 
 const navItems = [
-  { href: '/works', label: 'WORKS' },
-  { href: '/about', label: 'ABOUT' },
-  { href: '/blogs', label: 'BLOGS' },
+  { 
+    href: '/works', 
+    label: 'WORKS',
+    icon: Code,
+    submenu: [
+      { href: '/works/web-development', label: 'Web Development', icon: Code, desc: 'React, Next.js, Node' },
+      { href: '/works/mobile-apps', label: 'Mobile Apps', icon: Smartphone, desc: 'iOS & Android' },
+      { href: '/works/ui-design', label: 'UI/UX Design', icon: Palette, desc: 'Figma, Adobe XD' },
+      { href: '/works', label: 'View All', icon: Eye, desc: 'Complete portfolio' }
+    ]
+  },
+  { 
+    href: '/about', 
+    label: 'ABOUT',
+    icon: User,
+    submenu: [
+      { href: '/about', label: 'My Story', icon: User, desc: 'Journey & experience' },
+      { href: '/about/skills', label: 'Skills & Tech', icon: Zap, desc: 'Technologies I use' },
+      { href: '/contact', label: 'Get In Touch', icon: Mail, desc: 'Let\'s collaborate' }
+    ]
+  },
+  { 
+    href: '/blogs', 
+    label: 'BLOGS',
+    icon: FileText,
+    submenu: [
+      { href: '/blogs', label: 'All Articles', icon: FileText, desc: 'Latest insights & tutorials' },
+      { href: '/blogs/tech', label: 'Tech Deep Dives', icon: Cpu, desc: 'Code & development' },
+      { href: '/blogs/design', label: 'Design Insights', icon: Brush, desc: 'UI/UX & creativity' }
+    ]
+  }
 ];
 
 export function Header() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -43,175 +73,209 @@ export function Header() {
 
   return (
     <header 
-      className={`sticky top-0 z-50 bg-[#E85D4C] transition-opacity duration-300 ${
-        scrolled ? 'opacity-80' : 'opacity-100'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled ? 'py-2' : 'py-4'
       }`} 
       ref={dropdownRef}
     >
-      <div className="container mx-auto px-4">
-        <div className="border border-[#8B3A2F]/30 rounded-xl py-2 px-4 my-2 bg-[#E85D4C]/90 backdrop-blur-sm">
-          <div className="flex items-center">
-            {/* Logo */}
-            <Link href="/" className="relative w-[60px] flex-shrink-0">
-              <Image
-                src="/shinjan.png"
-                alt="Shinjan Patra Logo"
-                width={60}
-                height={24}
-                className="w-auto h-auto"
-                priority
-              />
+      <div className="container mx-auto px-4 max-w-7xl">
+        <nav className={`relative bg-background/80 backdrop-blur-xl border border-border/50 rounded-3xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] transition-all duration-500 ${
+          scrolled ? 'py-3 px-6' : 'py-4 px-8'
+        }`}>
+          <div className="flex items-center justify-between">
+            {/* Logo Section */}
+            <Link href="/" className="flex items-center gap-4 group">
+              <div className="relative">
+                <div className="w-12 h-12 bg-gradient-to-br from-[#E85D4C] to-[#F4C155] rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <Image
+                    src="/shinjan.png"
+                    alt="Shinjan Patra"
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 object-contain"
+                    priority
+                  />
+                </div>
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-[#F4C155] rounded-full animate-pulse"></div>
+              </div>
+              <div className="hidden md:block">
+                <div className="text-lg font-black text-foreground group-hover:text-[#E85D4C] transition-colors">
+                  SHINJAN
+                </div>
+                <div className="text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground">
+                  Software Cook
+                </div>
+              </div>
             </Link>
 
-            {/* Main Navigation - Centered */}
-            <nav className="hidden md:flex items-center justify-center flex-1 gap-6">
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center gap-2">
               {navItems.map((item) => (
                 <div key={item.href} className="relative">
                   <button
                     onClick={() => handleNavItemClick(item.label)}
-                    className="flex items-center gap-1 text-white text-xs font-medium tracking-wide hover:text-[#F4C155] transition-colors py-1"
+                    className="flex items-center gap-2 px-6 py-3 text-foreground font-bold text-sm tracking-wide uppercase hover:text-[#E85D4C] transition-all duration-300 group rounded-2xl hover:bg-white/5"
                   >
-                    {item.label}
-                    <ChevronDown className={`w-3 h-3 transition-transform ${activeDropdown === item.label ? 'rotate-180' : ''}`} />
+                    <item.icon className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                    <span>{item.label}</span>
+                    <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${
+                      activeDropdown === item.label ? 'rotate-180 text-[#F4C155]' : ''
+                    }`} />
                   </button>
                 </div>
               ))}
-            </nav>
+            </div>
 
-            {/* Social Links - Right Aligned */}
-            <div className="flex items-center gap-2">
-              <Link
-                href="https://github.com/shinjan"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-6 h-6 flex items-center justify-center rounded-full bg-[#F4C155] text-[#E85D4C] hover:bg-white transition-colors"
-                aria-label="GitHub"
+            {/* Right Section */}
+            <div className="flex items-center gap-3">
+              <ThemeToggle />
+              
+              {/* Social Links - Desktop */}
+              <div className="hidden md:flex items-center gap-2">
+                <Link
+                  href="https://github.com/shinjan"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#E85D4C] hover:scale-110 transition-all duration-300"
+                  aria-label="GitHub"
+                >
+                  <Github className="w-4 h-4" />
+                </Link>
+                <Link
+                  href="https://linkedin.com/in/shinjan"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#F4C155] hover:scale-110 transition-all duration-300"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </Link>
+                <Link
+                  href="https://twitter.com/shinjan"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#E85D4C] hover:scale-110 transition-all duration-300"
+                  aria-label="Twitter"
+                >
+                  <Twitter className="w-4 h-4" />
+                </Link>
+              </div>
+
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="lg:hidden w-10 h-10 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl flex items-center justify-center text-foreground hover:border-[#E85D4C] transition-all duration-300"
+                aria-label="Toggle mobile menu"
               >
-                <Github className="w-3 h-3" />
-              </Link>
-              <Link
-                href="https://linkedin.com/in/shinjan"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-6 h-6 flex items-center justify-center rounded-full bg-[#F4C155] text-[#E85D4C] hover:bg-white transition-colors"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-3 h-3" />
-              </Link>
-              <Link
-                href="https://twitter.com/shinjan"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-6 h-6 flex items-center justify-center rounded-full bg-[#F4C155] text-[#E85D4C] hover:bg-white transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter className="w-3 h-3" />
-              </Link>
+                {mobileMenuOpen ? (
+                  <X className="w-5 h-5" />
+                ) : (
+                  <Menu className="w-5 h-5" />
+                )}
+              </button>
             </div>
           </div>
-        </div>
 
-        {/* Compact Dropdown Menus */}
-        {activeDropdown && (
-          <div className="absolute left-1/2 transform -translate-x-1/2 top-full mt-1">
-            {activeDropdown === 'WORKS' && (
-              <div className="bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-xl overflow-hidden shadow-xl min-w-[280px]">
-                <div className="p-4">
-                  <div className="grid grid-cols-2 gap-3">
-                    <Link href="/works/web-development" className="group flex items-start gap-2 p-3 rounded-lg hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 transition-all duration-200">
-                      <Code className="w-4 h-4 text-blue-600 mt-0.5 group-hover:scale-110 transition-transform" />
-                      <div>
-                        <h4 className="font-semibold text-gray-800 text-xs">Web Development</h4>
-                        <p className="text-[10px] text-gray-600">React, Next.js, Node</p>
-                      </div>
-                    </Link>
-                    <Link href="/works/mobile-apps" className="group flex items-start gap-2 p-3 rounded-lg hover:bg-gradient-to-r hover:from-green-50 hover:to-green-100 transition-all duration-200">
-                      <Smartphone className="w-4 h-4 text-green-600 mt-0.5 group-hover:scale-110 transition-transform" />
-                      <div>
-                        <h4 className="font-semibold text-gray-800 text-xs">Mobile Apps</h4>
-                        <p className="text-[10px] text-gray-600">iOS & Android</p>
-                      </div>
-                    </Link>
-                    <Link href="/works/ui-design" className="group flex items-start gap-2 p-3 rounded-lg hover:bg-gradient-to-r hover:from-purple-50 hover:to-purple-100 transition-all duration-200">
-                      <Palette className="w-4 h-4 text-purple-600 mt-0.5 group-hover:scale-110 transition-transform" />
-                      <div>
-                        <h4 className="font-semibold text-gray-800 text-xs">UI/UX Design</h4>
-                        <p className="text-[10px] text-gray-600">Figma, Adobe XD</p>
-                      </div>
-                    </Link>
-                    <Link href="/works" className="group flex items-start gap-2 p-3 rounded-lg hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 transition-all duration-200">
-                      <Eye className="w-4 h-4 text-orange-600 mt-0.5 group-hover:scale-110 transition-transform" />
-                      <div>
-                        <h4 className="font-semibold text-gray-800 text-xs">View All</h4>
-                        <p className="text-[10px] text-gray-600">Complete portfolio</p>
-                      </div>
-                    </Link>
+          {/* Desktop Dropdown Menus */}
+          {activeDropdown && (
+            <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 z-50">
+              {navItems.find(item => item.label === activeDropdown)?.submenu && (
+                <div className="bg-background/95 backdrop-blur-xl border border-border/50 rounded-3xl overflow-hidden shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] min-w-[320px]">
+                  <div className="p-6">
+                    <div className="grid gap-2">
+                      {navItems.find(item => item.label === activeDropdown)?.submenu?.map((subItem) => (
+                        <Link 
+                          key={subItem.href}
+                          href={subItem.href} 
+                          className="group flex items-start gap-4 p-4 rounded-2xl hover:bg-gradient-to-r hover:from-[#E85D4C]/10 hover:to-[#F4C155]/10 transition-all duration-300"
+                          onClick={() => setActiveDropdown(null)}
+                        >
+                          <div className="w-10 h-10 bg-gradient-to-br from-[#E85D4C]/20 to-[#F4C155]/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <subItem.icon className="w-5 h-5 text-[#E85D4C]" />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-foreground group-hover:text-[#E85D4C] transition-colors text-sm">
+                              {subItem.label}
+                            </h4>
+                            <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+                              {subItem.desc}
+                            </p>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
+          )}
 
-            {activeDropdown === 'ABOUT' && (
-              <div className="bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-xl overflow-hidden shadow-xl min-w-[240px]">
-                <div className="p-4">
-                  <div className="space-y-2">
-                    <Link href="/about" className="group flex items-center gap-3 p-3 rounded-lg hover:bg-gradient-to-r hover:from-indigo-50 hover:to-indigo-100 transition-all duration-200">
-                      <User className="w-4 h-4 text-indigo-600 group-hover:scale-110 transition-transform" />
-                      <div>
-                        <h4 className="font-semibold text-gray-800 text-xs">My Story</h4>
-                        <p className="text-[10px] text-gray-600">Journey & experience</p>
+          {/* Mobile Menu */}
+          {mobileMenuOpen && (
+            <div className="lg:hidden absolute top-full left-0 right-0 mt-4">
+              <div className="bg-background/95 backdrop-blur-xl border border-border/50 rounded-3xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] p-6">
+                {/* Mobile Navigation Links */}
+                <div className="space-y-4 mb-6">
+                  {navItems.map((item) => (
+                    <div key={item.href}>
+                      <Link
+                        href={item.href}
+                        className="flex items-center gap-3 p-3 rounded-2xl text-foreground font-bold text-sm uppercase tracking-wide hover:bg-gradient-to-r hover:from-[#E85D4C]/10 hover:to-[#F4C155]/10 transition-all"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <item.icon className="w-5 h-5 text-[#E85D4C]" />
+                        <span>{item.label}</span>
+                      </Link>
+                      
+                      {/* Mobile Submenu */}
+                      <div className="ml-8 mt-2 space-y-2">
+                        {item.submenu?.map((subItem) => (
+                          <Link
+                            key={subItem.href}
+                            href={subItem.href}
+                            className="flex items-center gap-3 p-2 rounded-xl text-muted-foreground text-xs uppercase tracking-wide hover:text-foreground transition-colors"
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            <subItem.icon className="w-3 h-3" />
+                            <span>{subItem.label}</span>
+                          </Link>
+                        ))}
                       </div>
-                    </Link>
-                    <Link href="/about/skills" className="group flex items-center gap-3 p-3 rounded-lg hover:bg-gradient-to-r hover:from-teal-50 hover:to-teal-100 transition-all duration-200">
-                      <Zap className="w-4 h-4 text-teal-600 group-hover:scale-110 transition-transform" />
-                      <div>
-                        <h4 className="font-semibold text-gray-800 text-xs">Skills & Tech</h4>
-                        <p className="text-[10px] text-gray-600">Technologies I use</p>
-                      </div>
-                    </Link>
-                    <Link href="/contact" className="group flex items-center gap-3 p-3 rounded-lg hover:bg-gradient-to-r hover:from-rose-50 hover:to-rose-100 transition-all duration-200">
-                      <Mail className="w-4 h-4 text-rose-600 group-hover:scale-110 transition-transform" />
-                      <div>
-                        <h4 className="font-semibold text-gray-800 text-xs">Get In Touch</h4>
-                        <p className="text-[10px] text-gray-600">Let&apos;s collaborate</p>
-                      </div>
-                    </Link>
-                  </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Mobile Social Links */}
+                <div className="flex items-center gap-3 justify-center pt-4 border-t border-border/50">
+                  <Link
+                    href="https://github.com/shinjan"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#E85D4C] transition-all"
+                  >
+                    <Github className="w-4 h-4" />
+                  </Link>
+                  <Link
+                    href="https://linkedin.com/in/shinjan"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#F4C155] transition-all"
+                  >
+                    <Linkedin className="w-4 h-4" />
+                  </Link>
+                  <Link
+                    href="https://twitter.com/shinjan"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-[#E85D4C] transition-all"
+                  >
+                    <Twitter className="w-4 h-4" />
+                  </Link>
                 </div>
               </div>
-            )}
-
-            {activeDropdown === 'BLOGS' && (
-              <div className="bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-xl overflow-hidden shadow-xl min-w-[260px]">
-                <div className="p-4">
-                  <div className="space-y-2">
-                    <Link href="/blogs" className="group flex items-center gap-3 p-3 rounded-lg hover:bg-gradient-to-r hover:from-emerald-50 hover:to-emerald-100 transition-all duration-200">
-                      <FileText className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform" />
-                      <div>
-                        <h4 className="font-semibold text-gray-800 text-xs">All Articles</h4>
-                        <p className="text-[10px] text-gray-600">Latest insights & tutorials</p>
-                      </div>
-                    </Link>
-                    <Link href="/blogs/tech" className="group flex items-center gap-3 p-3 rounded-lg hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 transition-all duration-200">
-                      <Cpu className="w-4 h-4 text-blue-600 group-hover:scale-110 transition-transform" />
-                      <div>
-                        <h4 className="font-semibold text-gray-800 text-xs">Tech Deep Dives</h4>
-                        <p className="text-[10px] text-gray-600">Code & development</p>
-                      </div>
-                    </Link>
-                    <Link href="/blogs/design" className="group flex items-center gap-3 p-3 rounded-lg hover:bg-gradient-to-r hover:from-violet-50 hover:to-violet-100 transition-all duration-200">
-                      <Brush className="w-4 h-4 text-violet-600 group-hover:scale-110 transition-transform" />
-                      <div>
-                        <h4 className="font-semibold text-gray-800 text-xs">Design Philosophy</h4>
-                        <p className="text-[10px] text-gray-600">UI/UX thoughts</p>
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
+            </div>
+          )}
+        </nav>
       </div>
     </header>
   );
