@@ -187,7 +187,7 @@ export default async function BlogPost({
     : null;
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden transition-colors duration-300">
+    <div className="bg-background relative overflow-hidden transition-colors duration-300">
       {/* Geometric Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Gradient Mesh Background */}

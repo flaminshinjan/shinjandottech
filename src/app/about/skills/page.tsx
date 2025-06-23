@@ -93,7 +93,7 @@ const stats = [
 
 export default function SkillsPage() {
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden transition-colors duration-300">
+    <div className="bg-background relative overflow-hidden transition-colors duration-300">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-full opacity-20">
