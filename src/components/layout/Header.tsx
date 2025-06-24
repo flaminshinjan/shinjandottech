@@ -13,8 +13,7 @@ const navItems = [
     icon: Code,
     submenu: [
       { href: '/works', label: 'All Projects', icon: Eye, desc: 'Complete portfolio showcase' },
-      { href: '/works?category=professional', label: 'Professional Work', icon: Code, desc: 'Company projects & clients' },
-      { href: '/works?category=personal', label: 'Personal Projects', icon: Zap, desc: 'Side projects & experiments' }
+      { href: '/works?category=professional', label: 'Professional Work', icon: Code, desc: 'Company projects & clients' }
     ]
   },
   { 
