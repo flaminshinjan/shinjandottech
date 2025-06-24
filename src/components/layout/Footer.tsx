@@ -1,5 +1,8 @@
+'use client';
+
 import { Github, Linkedin, Twitter, Mail, MapPin, Calendar, ArrowRight, Heart, Code, Coffee } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 const socialLinks = [
   {
@@ -28,15 +31,96 @@ const quickLinks = [
 ];
 
 const services = [
-  { href: '/works?category=professional', label: 'Web Development' },
-  { href: '/works?category=professional', label: 'Mobile Apps' },
-  { href: '/works?category=professional', label: 'UI/UX Design' },
-  { href: '/works?category=professional', label: 'Backend Systems' },
+  { href: '/works?category=professional#web', label: 'Web Development' },
+  { href: '/works?category=professional#mobile', label: 'Mobile Apps' },
+  { href: '/works?category=professional#design', label: 'UI/UX Design' },
+  { href: '/works?category=professional#backend', label: 'Backend Systems' },
   { href: '/contact', label: 'Consulting' },
 ];
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  
+  useEffect(() => {
+    // Load Cal.com script with mobile-responsive configuration
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.innerHTML = `
+      (function (C, A, L) { 
+        let p = function (a, ar) { a.q.push(ar); }; 
+        let d = C.document; 
+        C.Cal = C.Cal || function () { 
+          let cal = C.Cal; 
+          let ar = arguments; 
+          if (!cal.loaded) { 
+            cal.ns = {}; 
+            cal.q = cal.q || []; 
+            d.head.appendChild(d.createElement("script")).src = A; 
+            cal.loaded = true; 
+          } 
+          if (ar[0] === L) { 
+            const api = function () { p(api, arguments); }; 
+            const namespace = ar[1]; 
+            api.q = api.q || []; 
+            if(typeof namespace === "string"){
+              cal.ns[namespace] = cal.ns[namespace] || api;
+              p(cal.ns[namespace], ar);
+              p(cal, ["initNamespace", namespace]);
+            } else p(cal, ar); 
+            return;
+          } 
+          p(cal, ar); 
+        }; 
+      })(window, "https://app.cal.com/embed/embed.js", "init");
+      
+      Cal("init", "30min", {origin:"https://app.cal.com"});
+      
+      // Responsive layout configuration
+      const isMobile = window.innerWidth < 768;
+      const layoutConfig = isMobile ? "column_view" : "month_view";
+      
+      Cal.ns["30min"]("inline", {
+        elementOrSelector:"#my-cal-inline",
+        config: {
+          "layout": layoutConfig,
+          "theme": "auto"
+        },
+        calLink: "shinjan-patra-3ioff2/30min",
+      });
+      
+      Cal.ns["30min"]("ui", {
+        "hideEventTypeDetails": false,
+        "layout": layoutConfig,
+        "styles": {
+          "branding": {
+            "brandColor": "#E85D4C"
+          }
+        }
+      });
+      
+      // Handle resize events for responsive layout
+      window.addEventListener('resize', function() {
+        const newIsMobile = window.innerWidth < 768;
+        const newLayoutConfig = newIsMobile ? "column_view" : "month_view";
+        
+        if ((isMobile && !newIsMobile) || (!isMobile && newIsMobile)) {
+          // Re-initialize with new layout if screen size category changed
+          Cal.ns["30min"]("ui", {
+            "layout": newLayoutConfig
+          });
+        }
+      });
+    `;
+    
+    document.head.appendChild(script);
+    
+    return () => {
+      // Cleanup if needed
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    };
+  }, []);
   
   return (
     <footer className="relative bg-background border-t border-white/10 overflow-hidden">
@@ -48,7 +132,33 @@ export function Footer() {
         </div>
       </div>
 
+      {/* Cal.com Scheduling Section - Full Width */}
+      <div className="py-8 md:py-16 border-b border-white/10 relative z-10">
+        <div className="container mx-auto px-4 text-center mb-6 md:mb-8">
+          <h2 className="text-2xl md:text-3xl font-black text-foreground mb-3 md:mb-4">Let&apos;s Work Together</h2>
+          <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
+            Ready to bring your ideas to life? Schedule a free consultation to discuss your project.
+          </p>
+        </div>
+        
+        {/* Cal.com Embed - Full Width & Responsive */}
+        <div className="w-full">
+          <div className="bg-white/5 backdrop-blur-xl border-y border-white/10">
+            <div 
+              style={{
+                width:'100%', 
+                height:'500px',
+                overflow:'hidden'
+              }} 
+              id="my-cal-inline"
+              className="min-h-[400px] md:min-h-[500px] lg:min-h-[600px]"
+            />
+          </div>
+        </div>
+      </div>
+
       <div className="container mx-auto px-4 relative z-10">
+
         {/* Main Footer Content */}
         <div className="py-16 grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           
@@ -69,7 +179,7 @@ export function Footer() {
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-muted-foreground">
                 <MapPin className="w-4 h-4 text-[#E85D4C]" />
-                <span className="text-sm">Kolkata, India</span>
+                <span className="text-sm">Chennai, India</span>
               </div>
               <div className="flex items-center gap-3 text-muted-foreground">
                 <Mail className="w-4 h-4 text-[#E85D4C]" />

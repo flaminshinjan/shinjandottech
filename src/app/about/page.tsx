@@ -85,7 +85,7 @@ const values = [
 ];
 
 const personalFacts = [
-  { label: "Based in", value: "Kolkata, India", icon: MapPin },
+  { label: "Based in", value: "Chennai, India", icon: MapPin },
   { label: "Experience", value: "3+ Years", icon: Calendar },
   { label: "Global Teams", value: "4 Countries", icon: Globe },
   { label: "Current Role", value: "Founding Engineer", icon: Rocket }

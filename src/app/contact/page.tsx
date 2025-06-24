@@ -306,7 +306,7 @@ export default function ContactPage() {
               <div className="mt-8 p-6 bg-gradient-to-br from-[#E85D4C]/10 to-[#F4C155]/10 border border-[#E85D4C]/20 rounded-2xl">
                 <div className="flex items-center gap-3 mb-3">
                   <MapPin className="w-5 h-5 text-[#E85D4C]" />
-                  <span className="font-bold text-foreground">Based in Kolkata, India</span>
+                  <span className="font-bold text-foreground">Based in Chennai, India</span>
                 </div>
                 <p className="text-muted-foreground text-sm leading-relaxed">
                   Open to remote work and international collaborations. Available for meetings across different time zones.

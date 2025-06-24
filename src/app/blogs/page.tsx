@@ -6,6 +6,7 @@ import imageUrlBuilder from "@sanity/image-url";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
 import { client } from "@/sanity/client";
+import { SnakeGame } from "@/components/SnakeGame";
 
 const POSTS_QUERY = `*[
   _type == "post"
@@ -88,12 +89,12 @@ export default async function BlogsPage() {
         }}></div>
       </div>
 
-      {/* Hero Section - Extreme Typography Contrast */}
-      <section className="relative py-20 lg:py-32">
+      {/* Hero Section with Snake Game */}
+      <section className="relative pt-24 pb-16 lg:pt-32 lg:pb-24">
         <div className="container mx-auto px-4 max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[70vh]">
-            {/* Left Side - Extreme Typography */}
-            <div className="lg:col-span-7 space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            {/* Left Side - Blog Content */}
+            <div className="space-y-8">
               {/* Small Label */}
               <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-full">
                 <BookOpen className="w-4 h-4 text-[#F4C155]" />
@@ -102,73 +103,85 @@ export default async function BlogsPage() {
                 </span>
               </div>
 
-              {/* Hero Title - Extreme Scale */}
+              {/* Hero Title */}
               <div className="space-y-4">
-                <h1 className="font-black text-[clamp(4rem,12vw,16rem)] leading-[0.75] tracking-tighter uppercase text-foreground">
+                <h1 className="font-black text-[clamp(3rem,8vw,8rem)] leading-[0.75] tracking-tighter uppercase text-foreground">
                   BLOG
                 </h1>
                 <div className="w-32 h-2 bg-gradient-to-r from-[#E85D4C] to-[#F4C155] rounded-full"></div>
               </div>
 
               {/* Supporting Text */}
-              <p className="text-xl lg:text-2xl leading-relaxed text-muted-foreground max-w-2xl font-light">
+              <p className="text-lg lg:text-xl leading-relaxed text-muted-foreground font-light">
                 Cutting-edge insights, deep dives into technology, and stories that shape the digital landscape.
               </p>
 
               {/* Stats Grid */}
-              <div className="grid grid-cols-3 gap-6 max-w-lg">
-                <div className="text-center">
-                  <div className="text-3xl font-black text-foreground mb-1">{totalPosts}</div>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 text-center">
+                  <div className="text-2xl font-black text-foreground mb-1">{totalPosts}</div>
                   <div className="text-xs font-semibold tracking-widest uppercase text-muted-foreground">Articles</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-3xl font-black text-foreground mb-1">{totalViews.toLocaleString()}</div>
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 text-center">
+                  <div className="text-2xl font-black text-foreground mb-1">{totalViews.toLocaleString()}</div>
                   <div className="text-xs font-semibold tracking-widest uppercase text-muted-foreground">Views</div>
                 </div>
-                <div className="text-center">
-                  <div className="text-3xl font-black text-foreground mb-1">{totalReadingTime}</div>
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 text-center">
+                  <div className="text-2xl font-black text-foreground mb-1">{totalReadingTime}</div>
                   <div className="text-xs font-semibold tracking-widest uppercase text-muted-foreground">Min Read</div>
+                </div>
+              </div>
+
+              {/* Search Card */}
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <Search className="w-5 h-5 text-[#F4C155]" />
+                    <h3 className="text-lg font-bold text-foreground">Find Content</h3>
+                  </div>
+                  
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Search articles..."
+                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#E85D4C] focus:border-transparent transition-all"
+                    />
+                    <Filter className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground cursor-pointer hover:text-[#F4C155] transition-colors" />
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {['Frontend', 'Backend', 'AI/ML', 'Tutorial'].map((tag) => (
+                      <button
+                        key={tag}
+                        className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs font-semibold uppercase tracking-wide text-muted-foreground hover:text-foreground hover:border-[#F4C155] transition-all"
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Side - Floating Search Card */}
-            <div className="lg:col-span-5 lg:col-start-9">
-              <div className="relative">
-                {/* Glassmorphism Search Card */}
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]">
-                  <div className="space-y-6">
-                    <div className="flex items-center gap-3 mb-6">
-                      <Search className="w-6 h-6 text-[#F4C155]" />
-                      <h3 className="text-lg font-bold text-foreground uppercase tracking-wide">Find Content</h3>
-                    </div>
-                    
-                    <div className="relative">
-                      <input
-                        type="text"
-                        placeholder="Search articles..."
-                        className="w-full px-6 py-4 bg-white/5 border border-white/20 rounded-2xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#E85D4C] focus:border-transparent transition-all"
-                      />
-                      <Filter className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground cursor-pointer hover:text-[#F4C155] transition-colors" />
-                    </div>
-
-                    <div className="flex flex-wrap gap-2">
-                      {['Frontend', 'Backend', 'AI/ML', 'Tutorial'].map((tag) => (
-                        <button
-                          key={tag}
-                          className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-semibold uppercase tracking-wide text-muted-foreground hover:text-foreground hover:border-[#F4C155] transition-all"
-                        >
-                          {tag}
-                        </button>
-                      ))}
-                    </div>
+            {/* Right Side - Compact Snake Game */}
+            <div className="relative">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6">
+                {/* Game Header */}
+                <div className="text-center mb-6">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full mb-3">
+                    <span className="text-xs font-bold tracking-widest uppercase text-muted-foreground">Interactive Break</span>
                   </div>
+                  <h2 className="text-2xl font-black text-foreground mb-2">SNAKE GAME</h2>
+                  <p className="text-sm text-muted-foreground">Take a break from reading! Use arrow keys or WASD.</p>
                 </div>
 
-                {/* Floating Elements */}
-                <div className="absolute -top-4 -right-4 w-8 h-8 bg-[#E85D4C] rounded-lg rotate-12 animate-float"></div>
-                <div className="absolute -bottom-6 -left-6 w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full animate-pulse opacity-80"></div>
+                {/* Compact Game Layout */}
+                <SnakeGame />
               </div>
+
+              {/* Floating Elements */}
+              <div className="absolute -top-3 -right-3 w-6 h-6 bg-[#E85D4C] rounded-lg rotate-12 animate-float"></div>
+              <div className="absolute -bottom-4 -left-4 w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full animate-pulse opacity-80"></div>
             </div>
           </div>
         </div>
@@ -176,7 +189,7 @@ export default async function BlogsPage() {
 
       {/* Featured Posts - Asymmetric Grid */}
       {featuredPosts.length > 0 && (
-        <section className="relative py-20">
+        <section className="relative py-12">
           <div className="container mx-auto px-4 max-w-7xl">
             {/* Section Header */}
             <div className="flex items-end justify-between mb-16">
@@ -314,7 +327,7 @@ export default async function BlogsPage() {
       )}
 
       {/* All Articles Grid */}
-      <section className="relative py-20">
+      <section className="relative py-12">
         <div className="container mx-auto px-4 max-w-7xl">
           {/* Section Header */}
           <div className="text-center mb-16">

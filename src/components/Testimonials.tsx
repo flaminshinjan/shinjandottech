@@ -2,62 +2,62 @@ import Image from 'next/image';
 
 const testimonials = [
   {
-    name: 'Rachel Adams',
-    role: 'HR Manager, BrightPath Consulting',
-    image: '/testimonials/rachel.jpg',
-    text: 'They delivered exactly what we needed — top-quality talent through a hassle-free, streamlined process that made everything easy.',
-    color: 'bg-gradient-to-br from-[#E85D4C] to-[#F4C155]',
+    name: 'Arjun Mahajan',
+    role: 'CEO, Indus Limited',
+    image: '/testimonials/arjun.jpg',
+    text: 'Shinjan is an exceptional founding engineer who brings both technical excellence and strategic thinking. His work on our FinTech platform has been instrumental in our success.',
+    color: 'bg-gradient-to-br from-blue-500 to-purple-600',
     transform: '-rotate-6 -translate-y-4',
   },
   {
-    name: 'James Robinson',
-    role: 'VP of HR, Apex Dynamics',
-    image: '/testimonials/james.jpg',
-    text: 'The team is committed to exceeding expectations. We received candidate profiles the same day, and the selected candidate was onboarded by the end of the week',
-    color: 'bg-gradient-to-br from-[#F4C155] to-[#E85D4C]',
+    name: 'Sarah Kim',
+    role: 'Engineering Manager, museLIVE Inc.',
+    image: '/testimonials/sarah.jpg',
+    text: 'Shinjan delivered high-quality backend solutions that scaled to 100K+ users. His Go expertise and system design skills are top-notch.',
+    color: 'bg-gradient-to-br from-green-500 to-teal-600',
     transform: 'rotate-3 translate-x-6',
   },
   {
-    name: 'David Mitchell',
-    role: 'Recruitment Head, Quantum Enterprises',
-    image: '/testimonials/david.jpg',
-    text: 'Our project timelines were incredibly tight, yet TechWave exceeded our expectations by not only delivering top-tier talent swiftly but also ensuring a seamless onboarding process.',
-    color: 'bg-gradient-to-br from-[#E85D4C]/90 to-[#F4C155]/90',
+    name: 'Rahul Patel',
+    role: 'CTO, Ionio',
+    image: '/testimonials/rahul.jpg',
+    text: 'Working with Shinjan for over a year was fantastic. He improved our app performance by 30% and seamlessly integrated complex payment systems. A true problem solver.',
+    color: 'bg-gradient-to-br from-orange-500 to-red-500',
     transform: '-rotate-3 translate-x-4 translate-y-6',
   },
   {
-    name: 'Emily Carter',
-    role: 'Operations Director, Stellar Solutions',
-    image: '/testimonials/emily.jpg',
-    text: 'Despite the challenges of a compressed schedule, TechWave not only provided exceptional professionals promptly but also facilitated an effortless integration experience.',
-    color: 'bg-gradient-to-br from-[#F4C155]/80 to-[#E85D4C]/80',
+    name: 'Maya Sharma',
+    role: 'Product Manager, Swift Money',
+    image: '/testimonials/maya.jpg',
+    text: 'Shinjan\'s mobile development skills are exceptional. He delivered our finance advisor app ahead of schedule with a beautiful, intuitive interface.',
+    color: 'bg-gradient-to-br from-pink-500 to-rose-600',
     transform: 'rotate-6 -translate-x-8 translate-y-2',
   },
   {
-    name: 'Mark Johnson',
-    role: 'Talent Specialist, InnovateTech Solutions',
-    image: '/testimonials/mark.jpg',
-    text: "We got the candidate profiles on the same day, and the chosen candidate was fully integrated by the week's end.",
-    color: 'bg-gradient-to-br from-orange-500 to-[#F4C155]',
+    name: 'Alex Thompson',
+    role: 'Lead Developer, TechRange',
+    image: '/testimonials/alex.jpg',
+    text: 'Shinjan quickly mastered our iOS testing framework and significantly improved our app reliability. His attention to detail is remarkable.',
+    color: 'bg-gradient-to-br from-indigo-500 to-blue-600',
     transform: '-rotate-12 translate-y-8',
   },
   {
-    name: 'Michael Lee',
-    role: 'CEO, Visionary Ventures',
-    image: '/testimonials/michael.jpg',
-    text: "The best recruitment partner we've ever worked with. They quickly understood our unique requirements and found candidates who are already making an impact on our team.",
-    color: 'bg-gradient-to-br from-[#E85D4C]/70 to-amber-500',
+    name: 'Jennifer Walsh',
+    role: 'Senior Engineer, Meta (Former Colleague)',
+    image: '/testimonials/jennifer.jpg',
+    text: 'Shinjan is one of the most dedicated engineers I\'ve worked with. His full-stack capabilities and passion for clean code make him invaluable to any team.',
+    color: 'bg-gradient-to-br from-purple-500 to-indigo-600',
     transform: 'rotate-9 -translate-x-4 -translate-y-2',
   },
 ];
 
 export function Testimonials() {
   return (
-    <section className="py-32 bg-gradient-to-b from-[#E85D4C]/10 via-orange-50 to-amber-50">
+    <section className="py-32 bg-gradient-to-b from-blue-50/30 via-purple-50/20 to-indigo-50/30">
       <div className="container mx-auto px-4">
         {/* Section Title */}
-        <h1 className="text-7xl font-bold mb-24 text-center bg-clip-text text-transparent bg-gradient-to-r from-[#E85D4C] via-orange-600 to-[#F4C155]">
-          What they say about us
+        <h1 className="text-7xl font-bold mb-24 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600">
+          What clients say about me
         </h1>
 
         {/* Testimonials Grid */}

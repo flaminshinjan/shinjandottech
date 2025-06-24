@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ExternalLink, Github, Calendar, Users, Smartphone, Award, TrendingUp, Briefcase, Heart, Globe } from 'lucide-react';
 
+
 interface Project {
   id: number;
   title: string;
@@ -140,121 +141,16 @@ const projects: Project[] = [
     duration: "3 months",
     featured: false,
     company: "TechRange"
-  },
-
-  // Personal Projects
-  {
-    id: 7,
-    title: "Personal Portfolio Website",
-    category: "personal",
-    type: "Full-Stack Web Application",
-    description: "Modern portfolio website built with Next.js featuring dynamic content management, blog system, and interactive UI components with glassmorphism design.",
-    image: "/projects/portfolio.jpg",
-    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Sanity CMS", "Vercel"],
-    features: ["Dynamic Content Management", "Blog System", "Glassmorphism Design", "Mobile Responsive", "Dark/Light Mode"],
-    liveUrl: "https://shinjan.tech",
-    githubUrl: "https://github.com/shinjan/portfolio",
-    status: "Live",
-    year: "2024",
-    team: "Solo Project",
-    duration: "Ongoing",
-    featured: true
-  },
-  {
-    id: 8,
-    title: "Task Management CLI Tool",
-    category: "personal",
-    type: "Command Line Interface",
-    description: "A powerful command-line task management tool built with Go, featuring project organization, time tracking, and productivity analytics.",
-    image: "/projects/cli-tool.jpg",
-    technologies: ["Go", "CLI", "SQLite", "Cobra", "Viper"],
-    features: ["Project Organization", "Time Tracking", "Productivity Analytics", "Cross-Platform", "Export to CSV"],
-    liveUrl: "",
-    githubUrl: "https://github.com/shinjan/task-cli",
-    status: "In Development",
-    year: "2024",
-    team: "Solo Project",
-    duration: "2 months",
-    featured: false
-  },
-  {
-    id: 9,
-    title: "Expense Tracker PWA",
-    category: "personal",
-    type: "Progressive Web Application",
-    description: "A minimalist expense tracking Progressive Web App with offline capabilities, data visualization, and budget planning features.",
-    image: "/projects/expense-tracker.jpg",
-    technologies: ["React", "TypeScript", "PWA", "IndexedDB", "Chart.js", "Service Workers"],
-    features: ["Offline Functionality", "Data Visualization", "Budget Planning", "Category Management", "Export Reports"],
-    liveUrl: "https://expense-tracker-pwa.vercel.app",
-    githubUrl: "https://github.com/shinjan/expense-tracker-pwa",
-    status: "Live",
-    year: "2023",
-    team: "Solo Project",
-    duration: "1 month",
-    featured: false
-  },
-  {
-    id: 10,
-    title: "Weather Forecast Widget",
-    category: "personal",
-    type: "Desktop Widget Application",
-    description: "A beautiful desktop weather widget built with Electron, featuring real-time weather data, forecasts, and customizable themes.",
-    image: "/projects/weather-widget.jpg",
-    technologies: ["Electron", "JavaScript", "CSS3", "Weather API", "Node.js"],
-    features: ["Real-Time Weather Data", "7-Day Forecast", "Customizable Themes", "System Tray Integration", "Auto Location"],
-    liveUrl: "",
-    githubUrl: "https://github.com/shinjan/weather-widget",
-    status: "Completed",
-    year: "2023",
-    team: "Solo Project",
-    duration: "3 weeks",
-    featured: false
-  },
-  {
-    id: 11,
-    title: "Habit Tracker Mobile App",
-    category: "personal",
-    type: "Flutter Mobile Application",
-    description: "A clean and intuitive habit tracking mobile app with streak tracking, statistics, and motivational features to build better daily routines.",
-    image: "/projects/habit-tracker.jpg",
-    technologies: ["Flutter", "Dart", "SQLite", "Provider", "Local Notifications"],
-    features: ["Streak Tracking", "Statistics Dashboard", "Custom Habits", "Reminders", "Progress Visualization"],
-    liveUrl: "",
-    githubUrl: "https://github.com/shinjan/habit-tracker-flutter",
-    status: "In Development",
-    year: "2024",
-    team: "Solo Project",
-    duration: "1 month",
-    featured: false
-  },
-  {
-    id: 12,
-    title: "Code Snippet Manager",
-    category: "personal",
-    type: "Desktop Application",
-    description: "A developer-focused code snippet management tool with syntax highlighting, tagging system, and quick search functionality.",
-    image: "/projects/snippet-manager.jpg",
-    technologies: ["Tauri", "React", "TypeScript", "SQLite", "Monaco Editor"],
-    features: ["Syntax Highlighting", "Tagging System", "Quick Search", "Export/Import", "Multiple Languages"],
-    liveUrl: "",
-    githubUrl: "https://github.com/shinjan/snippet-manager",
-    status: "Completed",
-    year: "2023",
-    team: "Solo Project",
-    duration: "6 weeks",
-    featured: false
   }
 ];
 
 const categories = [
   { id: 'all', label: 'All Projects', count: projects.length, icon: Award },
-  { id: 'professional', label: 'Professional Work', count: projects.filter(p => p.category === 'professional').length, icon: Briefcase },
-  { id: 'personal', label: 'Personal Projects', count: projects.filter(p => p.category === 'personal').length, icon: Heart }
+  { id: 'professional', label: 'Professional Work', count: projects.filter(p => p.category === 'professional').length, icon: Briefcase }
 ];
 
 const stats = [
-  { label: 'Total Projects', value: '12+', icon: Award },
+  { label: 'Total Projects', value: '6+', icon: Award },
   { label: 'Companies Worked', value: '5+', icon: Briefcase },
   { label: 'Years Experience', value: '3+', icon: Calendar },
   { label: 'Success Rate', value: '100%', icon: TrendingUp }
@@ -268,7 +164,7 @@ function WorksContent() {
   // Set initial category from URL params
   useEffect(() => {
     const categoryParam = searchParams.get('category');
-    if (categoryParam && ['professional', 'personal'].includes(categoryParam)) {
+    if (categoryParam && ['professional'].includes(categoryParam)) {
       setActiveCategory(categoryParam);
     }
   }, [searchParams]);
@@ -334,7 +230,7 @@ function WorksContent() {
 
             {/* Description */}
             <p className="text-xl lg:text-2xl leading-relaxed text-muted-foreground max-w-4xl mx-auto font-light mb-12">
-              A comprehensive showcase of professional projects from leading tech companies and personal passion projects that demonstrate innovation and technical excellence.
+              A showcase of professional projects from leading tech companies, delivering real-world impact and technical excellence across mobile, web, and AI platforms.
             </p>
 
             {/* Stats Grid */}
@@ -396,7 +292,7 @@ function WorksContent() {
               FEATURED WORKS
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Highlighting the most impactful projects from my professional and personal portfolio
+              Highlighting the most impactful projects from my professional portfolio
             </p>
           </div>
 
@@ -861,6 +757,7 @@ function WorksContent() {
           </div>
         </section>
       )}
+
     </div>
   );
 }
