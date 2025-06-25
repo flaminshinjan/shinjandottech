@@ -1,40 +1,40 @@
 'use client';
 
 import Link from 'next/link';
-import { Mail, MapPin, Phone, Github, Linkedin, Twitter, Send, MessageCircle, Calendar, Coffee, Clock, Globe } from 'lucide-react';
+import { Mail, MapPin, Phone, Github, Linkedin, Twitter, Send, MessageCircle, Calendar, Coffee, Clock, Globe, Video } from 'lucide-react';
 
 const contactMethods = [
   {
     icon: Mail,
     title: "Email",
     description: "Best for project inquiries and business matters",
-    value: "hello@shinjan.tech",
-    href: "mailto:hello@shinjan.tech",
+    value: "shinjanp.patra@gmail.com",
+    href: "mailto:shinjanp.patra@gmail.com",
     color: "from-blue-500 to-cyan-400"
   },
   {
     icon: Phone,
     title: "Phone",
     description: "For urgent matters and quick discussions",
-    value: "+91 98765 43210",
-    href: "tel:+919876543210",
+    value: "+91-8697624463",
+    href: "tel:+918697624463",
     color: "from-emerald-500 to-teal-400"
-  },
-  {
-    icon: MessageCircle,
-    title: "Discord",
-    description: "Chat about tech, projects, or just say hi",
-    value: "shinjan#1234",
-    href: "https://discord.com/users/shinjan",
-    color: "from-purple-500 to-violet-400"
   },
   {
     icon: Calendar,
     title: "Schedule a Call",
-    description: "Book a 30-minute consultation",
-    value: "calendly.com/shinjan",
-    href: "https://calendly.com/shinjan",
+    description: "Book a 30-minute consultation or project discussion",
+    value: "cal.com/shinjanpatra",
+    href: "https://cal.com/shinjanpatra",
     color: "from-orange-500 to-red-400"
+  },
+  {
+    icon: Video,
+    title: "Video Call",
+    description: "Quick video chat for project discussions",
+    value: "Google Meet / Zoom",
+    href: "https://cal.com/shinjanpatra",
+    color: "from-purple-500 to-violet-400"
   }
 ];
 
@@ -42,37 +42,37 @@ const socialLinks = [
   {
     icon: Github,
     name: "GitHub",
-    username: "@shinjan",
+    username: "@flaminshinjan",
     href: "https://github.com/flaminshinjan",
     color: "hover:text-gray-400"
   },
   {
     icon: Linkedin,
     name: "LinkedIn",
-    username: "in/shinjan",
+    username: "Shinjan Patra",
     href: "https://www.linkedin.com/in/shinjanpatra/",
     color: "hover:text-blue-400"
   },
   {
     icon: Twitter,
-    name: "Twitter",
-    username: "@shinjan_dev",
+    name: "Twitter/X",
+    username: "@flaminshinjanp",
     href: "https://x.com/flaminshinjanp",
     color: "hover:text-sky-400"
   }
 ];
 
 const workingHours = [
-  { day: "Monday - Friday", hours: "9:00 AM - 6:00 PM IST" },
-  { day: "Saturday", hours: "10:00 AM - 2:00 PM IST" },
+  { day: "Monday - Friday", hours: "9:00 AM - 7:00 PM IST" },
+  { day: "Saturday", hours: "10:00 AM - 4:00 PM IST" },
   { day: "Sunday", hours: "Available for urgent matters" }
 ];
 
 const responseStats = [
-  { label: "Average Response", value: "< 2 Hours", icon: Clock },
+  { label: "Average Response", value: "< 4 Hours", icon: Clock },
   { label: "Time Zone", value: "IST (UTC+5:30)", icon: Globe },
   { label: "Languages", value: "English, Hindi", icon: MessageCircle },
-  { label: "Coffee Meetings", value: "Always Welcome", icon: Coffee }
+  { label: "Meetings", value: "Always Welcome", icon: Coffee }
 ];
 
 export default function ContactPage() {
@@ -124,7 +124,7 @@ export default function ContactPage() {
 
             {/* Description */}
             <p className="text-xl lg:text-2xl leading-relaxed text-muted-foreground max-w-4xl mx-auto font-light mb-12">
-              Ready to bring your ideas to life? I&apos;m always excited to discuss new projects, creative collaborations, and innovative solutions.
+              Let&apos;s build something amazing together! I&apos;m a passionate full-stack developer ready to help bring your ideas to life through innovative mobile and web solutions.
             </p>
 
             {/* Response Stats */}
@@ -151,7 +151,7 @@ export default function ContactPage() {
               REACH OUT
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Choose your preferred way to connect. I&apos;m responsive across all channels.
+              Whether you need mobile app development, web solutions, or technical consulting - choose your preferred way to connect.
             </p>
           </div>
 
@@ -186,7 +186,7 @@ export default function ContactPage() {
               SEND MESSAGE
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Prefer a direct message? Fill out the form below and I&apos;ll get back to you soon.
+              Have a project in mind? Share your ideas below and I&apos;ll get back to you within 24 hours with insights and next steps.
             </p>
           </div>
 
@@ -309,7 +309,7 @@ export default function ContactPage() {
                   <span className="font-bold text-foreground">Based in Chennai, India</span>
                 </div>
                 <p className="text-muted-foreground text-sm leading-relaxed">
-                  Open to remote work and international collaborations. Available for meetings across different time zones.
+                  Currently working as Founding Software Engineer at Indus Limited. Open to freelance projects, collaborations, and consulting opportunities worldwide.
                 </p>
               </div>
             </div>
